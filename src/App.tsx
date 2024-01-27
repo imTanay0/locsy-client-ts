@@ -1,12 +1,24 @@
-import { Button } from "./components/ui/button"
+import { createBrowserRouter, RouterProvider} from 'react-router-dom';
+
+import { HomePage } from './pages/Home/homePage';
+import SignInPage from './pages/SignIn/SignInPage';
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <HomePage />,
+    },
+    {
+      path: "/signin",
+      element: <SignInPage />
+    }
+  ])
 
   return (
-    <>
-      <h1 className="font-bold text-4xl">Hello</h1>
-      <Button >Click here</Button>
-    </>
+    <div>
+      <RouterProvider router={router} />
+    </div>
   )
 }
 
