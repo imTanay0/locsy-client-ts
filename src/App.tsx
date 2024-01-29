@@ -16,7 +16,7 @@ function App() {
       <Suspense fallback={<MyLoader />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/login" element={<SignInPage />} />
           <Route path="/products" element={<ProductsPage />} />
 
           <Route path="/*" element={<NotFoundPage />} />
