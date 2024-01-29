@@ -11,9 +11,9 @@ export function Header() {
         <span className="ml-2 text-xl font-semibold">Locsy</span>
       </Link>
       <nav className="hidden lg:flex gap-4">
-        <a className="text-sm hover:underline" href="#">
-          Electronics
-        </a>
+        <Link className="text-sm hover:underline" to="/products">
+          Products
+        </Link>
         <a className="text-sm hover:underline" href="#">
           Clothing
         </a>
