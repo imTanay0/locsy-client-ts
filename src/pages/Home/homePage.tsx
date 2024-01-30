@@ -5,7 +5,7 @@ import HomeHeadingCarousel from "./homeHeadingCarousel";
 import HomePageCard from "./homePageCard";
 import { products } from "@/data/productDemoData";
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -60,6 +60,6 @@ export default function HomePage() {
       </main>
     </div>
   );
-}
+};
 
-// export default HomePage;
+export default HomePage;
