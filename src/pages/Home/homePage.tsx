@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
+
+import { Button } from "@/components/ui/button";
 import HomeHeadingCarousel from "./homeHeadingCarousel";
+import HomePageCard from "./homePageCard";
+import { products } from "@/data/productDemoData";
 
 const HomePage = () => {
   return (
@@ -22,61 +19,42 @@ const HomePage = () => {
                 Locsy is an online platform that supports the local artisans
               </h1>
               <p className="max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                You can buy products of other artisans and also become a seller. Let's connect the bridge between ourselves in a simpler and modern way
+                You can buy products of other artisans and also become a seller.
+                Let's connect the bridge between ourselves in a simpler and
+                modern way
               </p>
-              <Link
-                to="/register"
-                className="md:w-fit"
-              >
-                <Button className="w-full min-w-[200px]">
-                  Register Now
-                </Button>
+              <Link to="/register" className="md:w-fit">
+                <Button className="w-full min-w-[200px]">Register Now</Button>
               </Link>
             </div>
           </div>
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              Shop by Category
-            </h2>
-            <Carousel className="w-full mt-8">
-              <CarouselContent>
-                <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
-                        <a href="#">
-                          <h3 className="text-xl font-bold">Electronics</h3>
-                        </a>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-                <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
-                        <a href="#">
-                          <h3 className="text-xl font-bold">Clothing</h3>
-                        </a>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-                <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-6">
-                        <a href="#">
-                          <h3 className="text-xl font-bold">Home Goods</h3>
-                        </a>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              </CarouselContent>
-            </Carousel>
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-semibold uppercase tracking-tighter sm:text-5xl">
+                Latest Prodcuts
+              </h2>
+              <Link
+                to="/products"
+                className="hover:underline text-base md:text-lg"
+              >
+                More
+              </Link>
+            </div>
+            <div className="mt-5 py-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
+                {products.map((product) => (
+                  <HomePageCard
+                    key={product._id}
+                    productName={product.productName}
+                    productImg={product.productImg}
+                    price={product.price}
+                    seller={product.seller}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </main>
