@@ -8,7 +8,7 @@ import Footer from "./components/footer";
 // import HomePage from "@/pages/Home/HomePage";
 
 const HomePage = lazy(() => import("@/pages/Home/HomePage"));
-const ProductsPage = lazy(() => import("./pages/Products/ProductsPage"));
+const ProductsPage = lazy(() => import("@/pages/Products/ProductsPage"));
 const SignInPage = lazy(() => import("./pages/SignIn/SignInPage"));
 const NotFoundPage = lazy(() => import("./components/notFoundPage"));
 
