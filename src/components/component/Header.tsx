@@ -8,7 +8,7 @@ import SearchBox from "./searchBox";
 
 const user = { _id: "", role: 2 };
 
-export function Header() {
+const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const logoutHandler = () => {
@@ -74,4 +74,6 @@ export function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default Header;

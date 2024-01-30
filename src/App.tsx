@@ -2,12 +2,12 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import MyLoader from "./components/myLoader";
-import NotFoundPage from "./components/notFoundPage";
-import { Header } from "./components/component/header";
-import ProductsPage from "./pages/Products/ProductsPage";
+import Header from "./components/component/header";
 import Footer from "./components/footer";
 const HomePage = lazy(() => import("./pages/Home/HomePage"));
+const ProductsPage = lazy(() => import("./pages/Products/ProductsPage"));
 const SignInPage = lazy(() => import("./pages/SignIn/SignInPage"));
+const NotFoundPage = lazy(() => import("./components/notFoundPage"));
 
 function App() {
   return (
