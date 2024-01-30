@@ -6,7 +6,7 @@ import logo from "../../assets/logo.png";
 import { Button } from "../ui/button";
 import SearchBox from "./searchBox";
 
-const user = { _id: "fd", role: 1 };
+const user = { _id: "", role: 2 };
 
 export function Header() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export function Header() {
             </button>
             <dialog
               open={isDialogOpen}
-              className="bg-slate-700 text-white p-4 w-28 rounded-md top-[8%] left-[calc(94%-112px)]"
+              className="bg-slate-600 text-gray-100 p-4 w-28 rounded-md top-[8%] left-[calc(94%-112px)]"
             >
               <div className="flex flex-col gap-3 align-middle items-center">
                 {(user.role === 1 || user.role === 2) && (

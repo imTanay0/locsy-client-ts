@@ -5,6 +5,7 @@ import MyLoader from "./components/myLoader";
 import NotFoundPage from "./components/notFoundPage";
 import { Header } from "./components/component/header";
 import ProductsPage from "./pages/Products/ProductsPage";
+import Footer from "./components/footer";
 const HomePage = lazy(() => import("./pages/Home/HomePage"));
 const SignInPage = lazy(() => import("./pages/SignIn/SignInPage"));
 
@@ -12,17 +13,18 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
-      <Header />
-      <Suspense fallback={<MyLoader />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<SignInPage />} />
-          <Route path="/products" element={<ProductsPage />} />
+        <Header />
+        <Suspense fallback={<MyLoader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<SignInPage />} />
+            <Route path="/products" element={<ProductsPage />} />
 
-          <Route path="/*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+            <Route path="/*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }
