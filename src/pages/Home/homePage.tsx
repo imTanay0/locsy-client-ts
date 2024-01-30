@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
-import HomeHeadingCarousel from "./homeHeadingCarousel";
-import HomePageCard from "./homePageCard";
+import HomeHeadingCarousel from "./components/homeHeadingCarousel";
+import HomePageCard from "./components/homePageCard";
 import { products } from "@/data/productDemoData";
 
 const HomePage = () => {
