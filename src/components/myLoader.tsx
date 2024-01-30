@@ -1,6 +1,6 @@
 const MyLoader = () => {
   return (
-    <div>Loading...</div>
+    <main className="min-h-[100svh]">Loading...</main>
   )
 }
 
