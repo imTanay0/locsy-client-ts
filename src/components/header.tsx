@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuIcon, ShoppingCart, UserRound, X } from "lucide-react";
 
-import logo from "../../assets/logo.png";
-import { Button } from "../ui/button";
-import SearchBox from "./searchBox";
+import logo from "../assets/logo.png";
+import { Button } from "./ui/button";
+import SearchBox from "./component/searchBox";
 
 const user = { _id: "", role: 2 };
 
