@@ -5,7 +5,7 @@ import MyLoader from "@/components/myLoader";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
-const HomePage = lazy(() => import("@/pages/Home/HomePage"));
+const HomePage = lazy(() => import("@/pages/Home/homePage"));
 const ProductsPage = lazy(() => import("@/pages/Products/ProductsPage"));
 const SignInPage = lazy(() => import("@/pages/SignIn/SignInPage"));
 const NotFoundPage = lazy(() => import("@/components/notFoundPage"));
