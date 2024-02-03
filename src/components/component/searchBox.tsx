@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 export default function SearchBox() {
   return (
     <div className="flex items-center gap-4">
-      <form className="hidden lg:flex items-center gap-2">
+      <form className="flex items-center gap-2">
         <Input
           className="w-64"
           placeholder="Search products..."
