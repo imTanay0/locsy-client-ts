@@ -61,12 +61,18 @@ const formSchema = z
       path: ["shopName"],
     }
   )
-  .refine((data) => {
-    if (data.accountType === "seller") {
-      return !!data.shopDescription;
+  .refine(
+    (data) => {
+      if (data.accountType === "seller") {
+        return !!data.shopDescription;
+      }
+      return true;
+    },
+    {
+      message: "Shop description is required",
+      path: ["shopDescription"],
     }
-    return true;
-  });
+  );
 
 const SignUpPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
