@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   LayoutGrid,
   LogOut,
@@ -8,16 +10,14 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
-import logo from "../assets/logo.png";
 import SearchBox from "./component/searchBox";
 import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import logo from "../assets/logo.png";
 
-const user = { _id: "fdsgd", role: 3 };
+const user = { _id: "", role: 3 };
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);

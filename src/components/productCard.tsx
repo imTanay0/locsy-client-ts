@@ -1,6 +1,6 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
-type HomePageCardProps = {
+type productCardProps = {
   key: React.Key | null | undefined;
   productName: string;
   productImg: string;
@@ -8,14 +8,13 @@ type HomePageCardProps = {
   seller: string;
 };
 
-const HomePageCard: React.FC<HomePageCardProps> = ({
+const ProductCard: React.FC<productCardProps> = ({
   productName,
   productImg,
   price,
   seller,
 }) => {
   return (
-    
     // todo -> The div below should be a Link tag to product detail page
 
     <div className="cursor-pointer">
@@ -37,4 +36,4 @@ const HomePageCard: React.FC<HomePageCardProps> = ({
   );
 };
 
-export default HomePageCard;
+export default ProductCard;

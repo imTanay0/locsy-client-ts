@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import HomeHeadingCarousel from "./components/homeHeadingCarousel";
-import HomePageCard from "./components/homePageCard";
 import { products } from "@/data/productDemoData";
+import ProductCard from "@/components/productCard";
 
 const HomePage = () => {
   return (
@@ -45,7 +45,7 @@ const HomePage = () => {
             <div className="mt-5 py-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
                 {products.map((product, index) => (
-                  <HomePageCard
+                  <ProductCard
                     key={index}
                     productName={product.productName}
                     productImg={product.productImg}
