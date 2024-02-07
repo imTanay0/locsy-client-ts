@@ -6,7 +6,7 @@ export default function SearchBox() {
     <div className="flex items-center gap-4">
       <form className="flex items-center gap-2">
         <Input
-          className="w-64"
+          className="w-40 md:w-64"
           placeholder="Search products..."
           type="search"
         />

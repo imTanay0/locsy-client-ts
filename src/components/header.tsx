@@ -17,7 +17,7 @@ import SearchBox from "./component/searchBox";
 import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 
-const user = { _id: "fdsf", role: 2 };
+const user = { _id: "fdsgd", role: 3 };
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -95,9 +95,13 @@ const Header = () => {
               <div className="">
                 <div className="flex flex-row justify-between px-5 py-2 border-b border-gray-200">
                   <div>
-                    <Link to="/" className="flex md:hidden items-center">
-                      <img className="w-8" src={logo} alt="logo" />
-                      <span className="ml-2 text-lg font-semibold">Locsy</span>
+                    <Link to="/">
+                      <DrawerClose className="flex md:hidden items-center">
+                        <img className="w-8" src={logo} alt="logo" />
+                        <span className="ml-2 text-lg font-semibold">
+                          Locsy
+                        </span>
+                      </DrawerClose>
                     </Link>
                   </div>
                   <DrawerClose>
@@ -106,46 +110,58 @@ const Header = () => {
                 </div>
                 <nav className="px-5 py-2 flex flex-col gap-2">
                   <Link className="py-1" to="/products">
-                    <div className="flex gap-2 items-center">
-                      <Store className="h-5 w-5" />
-                      <span>Products</span>
-                    </div>
+                    <DrawerClose>
+                      <div className="flex gap-2 items-center">
+                        <Store className="h-5 w-5" />
+                        <span>Products</span>
+                      </div>
+                    </DrawerClose>
                   </Link>
 
                   <Link className="py-1" to="/cart">
-                    <div className="flex gap-2 items-center">
-                      <ShoppingCart className="h-5 w-5" />
-                      <span>Cart</span>
-                    </div>
+                    <DrawerClose>
+                      <div className="flex gap-2 items-center">
+                        <ShoppingCart className="h-5 w-5" />
+                        <span>Cart</span>
+                      </div>
+                    </DrawerClose>
                   </Link>
 
                   {user?._id ? (
                     <>
                       {(user.role === 1 || user.role === 2) && (
                         <Link className="py-1" to="/dashboard">
-                          <div className="flex gap-2 items-center">
-                            <LayoutGrid className="h-5 w-5" />
-                            <span>Dashboard</span>
-                          </div>
+                          <DrawerClose>
+                            <div className="flex gap-2 items-center">
+                              <LayoutGrid className="h-5 w-5" />
+                              <span>Dashboard</span>
+                            </div>
+                          </DrawerClose>
                         </Link>
                       )}
                       <Link className="py-1" to="/orders">
-                        <div className="flex gap-2 items-center">
-                          <ShoppingBag className="h-5 w-5" />
-                          <span>Orders</span>
-                        </div>
+                        <DrawerClose>
+                          <div className="flex gap-2 items-center">
+                            <ShoppingBag className="h-5 w-5" />
+                            <span>Orders</span>
+                          </div>
+                        </DrawerClose>
                       </Link>
-                      <div
-                        className="text-red-600 cursor-pointer flex gap-2 items-center py-1"
-                        onClick={logoutHandler}
-                      >
-                        <LogOut className="h-5 w-5" />
-                        <span>Sign Out</span>
-                      </div>
+                      <DrawerClose>
+                        <div
+                          className="text-red-600 cursor-pointer flex gap-2 items-center py-1"
+                          onClick={logoutHandler}
+                        >
+                          <LogOut className="h-5 w-5" />
+                          <span>Sign Out</span>
+                        </div>
+                      </DrawerClose>
                     </>
                   ) : (
                     <Link to="/login">
-                      <Button>Sign In</Button>
+                      <DrawerClose>
+                        <Button>Sign In</Button>
+                      </DrawerClose>
                     </Link>
                   )}
                 </nav>
