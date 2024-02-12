@@ -99,9 +99,11 @@ const SignInPage = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
+          <div className="w-full pt-3">
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
+          </div>
         </form>
       </Form>
 

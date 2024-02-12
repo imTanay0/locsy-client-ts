@@ -35,19 +35,20 @@ import { Link } from "react-router-dom";
 
 const formSchema = z
   .object({
-    fname: z.string().min(1, {
-      message: "Required",
-    }),
-    lname: z.string().min(1, {
-      message: "Required",
-    }),
+    fname: z.string().min(1, { message: "Required" }),
+    lname: z.string().min(1, { message: "Required" }),
     email: z.string().email(),
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters.",
-    }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters." }),
     accountType: z.enum(["buyer", "seller"]),
     shopName: z.string().optional(),
     shopDescription: z.string().optional(),
+    contactNo: z.string().optional(),
+    street: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    zipCode: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -72,6 +73,22 @@ const formSchema = z
       message: "Shop description is required",
       path: ["shopDescription"],
     }
+  )
+  .refine(
+    (data) => {
+      if (data.contactNo === undefined) {
+        return true;
+      }
+
+      if (data.accountType === "seller") {
+        return /^\d{10}$/.test(data.contactNo);
+      }
+      return true;
+    },
+    {
+      message: "Contact number must be 10 digits",
+      path: ["contactNo"],
+    }
   );
 
 const SignUpPage = () => {
@@ -84,6 +101,11 @@ const SignUpPage = () => {
       password: "",
       shopName: "",
       shopDescription: "",
+      contactNo: "",
+      street: "",
+      city: "",
+      state: "",
+      zipCode: "",
     },
   });
 
@@ -202,6 +224,83 @@ const SignUpPage = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="contactNo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contact number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your contact number"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="street"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Street</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Street" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder="City" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>State</FormLabel>
+                      <FormControl>
+                        <Input placeholder="State" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="zipCode"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Zip code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Zip code" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </>
           )}
           <FormField
@@ -222,9 +321,11 @@ const SignUpPage = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
-            Register
-          </Button>
+          <div className="w-full pt-3">
+            <Button type="submit" className="w-full">
+              Register
+            </Button>
+          </div>
         </form>
       </Form>
 
