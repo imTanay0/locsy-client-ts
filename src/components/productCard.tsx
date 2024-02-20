@@ -1,4 +1,7 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 type productCardProps = {
   key: React.Key | null | undefined;
@@ -8,12 +11,30 @@ type productCardProps = {
   seller: string;
 };
 
-const ProductCard: React.FC<productCardProps> = ({
+const ProductCard = ({
   productName,
   productImg,
   price,
   seller,
-}) => {
+}: productCardProps) => {
+  const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    toast.success("Added to cart", {
+      action: {
+        label: "Check",
+        onClick: () => navigate("/cart"),
+      },
+      actionButtonStyle: {
+        backgroundColor: "green",
+        paddingInline: "12px",
+        paddingTop: "8px",
+        paddingBottom: "8px",
+      },
+      duration: 1000,
+    });
+  };
+
   return (
     // todo -> The div below should be a Link tag to product detail page
 
@@ -31,6 +52,11 @@ const ProductCard: React.FC<productCardProps> = ({
           <p className="mt-2">&#8377; {price}</p>
           <p>{seller}</p>
         </CardContent>
+        <CardFooter>
+          <Button className="w-full" onClick={handleAddToCart}>
+            Add to Cart
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );
