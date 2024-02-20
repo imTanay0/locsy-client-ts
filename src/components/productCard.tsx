@@ -1,10 +1,17 @@
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type productCardProps = {
   key: React.Key | null | undefined;
+  productId: string;
   productName: string;
   productImg: string;
   price: number;
@@ -12,6 +19,7 @@ type productCardProps = {
 };
 
 const ProductCard = ({
+  productId,
   productName,
   productImg,
   price,
@@ -31,22 +39,22 @@ const ProductCard = ({
         paddingTop: "8px",
         paddingBottom: "8px",
       },
-      duration: 1000,
+      // duration: 1000,
     });
   };
 
   return (
-    // todo -> The div below should be a Link tag to product detail page
-
-    <div className="cursor-pointer">
+    <div>
       <Card className="shadow-lg">
-        <div className="overflow-hidden">
-          <img
-            src={productImg}
-            alt="product_image"
-            className="h-auto w-full object-contain hover:scale-110 duration-500 transition-transform"
-          />
-        </div>
+        <CardHeader className="overflow-hidden cursor-pointer">
+          <Link to={`/product/${productId}`}>
+            <img
+              src={productImg}
+              alt="product_image"
+              className="h-auto w-full object-contain hover:scale-110 duration-500 transition-transform"
+            />
+          </Link>
+        </CardHeader>
         <CardContent>
           <CardTitle>{productName}</CardTitle>
           <p className="mt-2">&#8377; {price}</p>

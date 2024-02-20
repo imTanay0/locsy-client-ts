@@ -44,9 +44,10 @@ const HomePage = () => {
             </div>
             <div className="mt-5 py-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
-                {products.map((product, index) => (
+                {products.map((product) => (
                   <ProductCard
-                    key={index}
+                    key={product._id}
+                    productId={product._id}
                     productName={product.productName}
                     productImg={product.productImg}
                     price={product.price}
