@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -20,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -39,8 +40,45 @@ const SignInPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const accountType = form.watch("accountType");
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (accountType === "buyer") {
+      const newBuyer = {
+        email: values.email,
+        password: values.password,
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:8000/api/v1/buyer/login",
+          {
+            method: "POST",
+            body: JSON.stringify(newBuyer),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+          toast.error(result.message);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        toast.success("Registered Successfully");
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    }
+
+    if (accountType === "seller") {
+      console.log(values);
+    }
+
+    form.reset();
   }
 
   return (
@@ -57,7 +95,11 @@ const SignInPage = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your email" type="email" {...field} />
+                  <Input
+                    placeholder="Enter your email"
+                    type="email"
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -92,7 +134,11 @@ const SignInPage = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your password" type="password" {...field} />
+                  <Input
+                    placeholder="Enter your password"
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -111,7 +157,9 @@ const SignInPage = () => {
 
       <div className="flex max-w-md w-full justify-center gap-2 text-sm md:text-base">
         <p>Don't have an account?</p>
-        <Link to="/register" className="hover:underline underline-offset-2">Register here</Link>
+        <Link to="/register" className="hover:underline underline-offset-2">
+          Register here
+        </Link>
       </div>
     </main>
   );
