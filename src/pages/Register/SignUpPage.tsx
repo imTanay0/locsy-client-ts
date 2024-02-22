@@ -1,7 +1,9 @@
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -19,19 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { Link } from "react-router-dom";
-
-// fname, lname, email, password, contactNo, address
-
-// For Seller ->
-// street,
-// city,
-// state,
-// zipCode,
-// shopName,
-// shopDescription,
+// import { registerUser } from "@/api/auth";
 
 const formSchema = z
   .object({
@@ -111,8 +103,45 @@ const SignUpPage = () => {
 
   const accountType = form.watch("accountType");
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (accountType === "buyer") {
+      const newBuyer = {
+        fname: values.fname,
+        lname: values.lname,
+        email: values.email,
+        password: values.password,
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:8000/api/v1/buyer/register",
+          {
+            method: "POST",
+            body: JSON.stringify(newBuyer),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+          toast.error(result.message);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        toast.success("Registered Successfully");
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    }
+
+    if (accountType === "seller") {
+      console.log(values);
+    }
+
+    form.reset();
   }
 
   return (
