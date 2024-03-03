@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { Link } from "react-router-dom";
 // import { registerUser } from "@/api/auth";
 
 const formSchema = z
@@ -36,6 +36,7 @@ const formSchema = z
     accountType: z.enum(["buyer", "seller"]),
     shopName: z.string().optional(),
     shopDescription: z.string().optional(),
+    file: z.instanceof(FileList).optional(),
     contactNo: z.string().optional(),
     street: z.string().optional(),
     city: z.string().optional(),
@@ -81,6 +82,18 @@ const formSchema = z
       message: "Contact number must be 10 digits",
       path: ["contactNo"],
     }
+  )
+  .refine(
+    (data) => {
+      if (data.accountType === "seller") {
+        return !!(data.file?.length === 1);
+      }
+      return true;
+    },
+    {
+      message: "Shop image is required",
+      path: ["file"],
+    }
   );
 
 const SignUpPage = () => {
@@ -93,6 +106,7 @@ const SignUpPage = () => {
       password: "",
       shopName: "",
       shopDescription: "",
+      file: undefined,
       contactNo: "",
       street: "",
       city: "",
@@ -102,8 +116,9 @@ const SignUpPage = () => {
   });
 
   const accountType = form.watch("accountType");
+  const fileRef = form.register("file");
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function registerHandler(values: z.infer<typeof formSchema>) {
     if (accountType === "buyer") {
       const newBuyer = {
         fname: values.fname,
@@ -141,14 +156,14 @@ const SignUpPage = () => {
       console.log(values);
     }
 
-    form.reset();
+    // form.reset();
   }
 
   return (
     <main className="min-h-[100svh] flex flex-col items-center p-5 md:p-20">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(registerHandler)}
           className="space-y-4 max-w-md w-full"
         >
           <div className="flex gap-4">
@@ -175,7 +190,6 @@ const SignUpPage = () => {
                   <FormControl>
                     <Input placeholder="Enter your last name" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -249,6 +263,23 @@ const SignUpPage = () => {
                       />
                     </FormControl>
 
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="file"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Shop image</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        {...fileRef}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

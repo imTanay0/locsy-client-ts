@@ -51,7 +51,7 @@ const ProductCard = ({
             <img
               src={productImg}
               alt="product_image"
-              className="h-auto w-full object-contain hover:scale-110 duration-500 transition-transform"
+              className="aspect-square object-contain hover:scale-110 duration-500 transition-transform"
             />
           </Link>
         </CardHeader>
