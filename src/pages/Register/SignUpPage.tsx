@@ -94,7 +94,43 @@ const formSchema = z
       message: "Shop image is required",
       path: ["file"],
     }
-  );
+  )
+  .refine((data) => {
+    if (data.accountType === "seller") {
+      return !!data.street;
+    }
+    return true;
+  }, {
+    message: "Address is required",
+    path: ["street"]
+  })
+  .refine((data) => {
+    if (data.accountType === "seller") {
+      return !!data.city;
+    }
+    return true;
+  }, {
+    message: "Address is required",
+    path: ["city"]
+  })
+  .refine((data) => {
+    if (data.accountType === "seller") {
+      return !!data.state;
+    }
+    return true;
+  }, {
+    message: "Address is required",
+    path: ["state"]
+  })
+  .refine((data) => {
+    if (data.accountType === "seller") {
+      return !!data.zipCode;
+    }
+    return true;
+  }, {
+    message: "Address is required",
+    path: ["zipCode"]
+  })
 
 const SignUpPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
