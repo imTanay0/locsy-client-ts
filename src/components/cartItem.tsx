@@ -3,8 +3,18 @@ import { Link } from "react-router-dom";
 
 import { Button } from "./ui/button";
 
+type cartItemType = {
+  _id: string;
+  productName: string;
+  productImg: string;
+  price: number;
+  quantity: number;
+  stock: number;
+  seller: string;
+};
+
 type CartItemProps = {
-  cartItem: any;
+  cartItem: cartItemType;
 };
 
 const CartItem = ({ cartItem }: CartItemProps) => {
