@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import HomeHeadingCarousel from "./components/homeHeadingCarousel";
-import { products } from "@/data/productDemoData";
+import { productsDemoData } from "@/data/productDemoData";
 import ProductCard from "@/components/productCard";
 
 const HomePage = () => {
@@ -44,7 +44,7 @@ const HomePage = () => {
             </div>
             <div className="mt-5 py-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
-                {products.map((product) => (
+                {productsDemoData.map((product) => (
                   <ProductCard
                     key={product._id}
                     productId={product._id}
