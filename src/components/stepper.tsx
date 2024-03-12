@@ -1,18 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Check } from "lucide-react";
 
 import "@/css/stepper.css";
 import { Button } from "./ui/button";
 
-const Stepper = () => {
+type StepperProps = {
+  step: number;
+  onStepChange: (currentStep: number) => void;
+};
+
+const Stepper = ({ onStepChange }: StepperProps) => {
   const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
-  const [currentStep, setCurrentStep] = useState(1);
+
+  const location = useLocation();
+  const querySearch = new URLSearchParams(location.search);
+
+  const stepQuery = querySearch.get("step");
+
+  let step: number = 1;
+
+  if (!stepQuery) {
+    const newUrl = `/checkout?step=1`;
+    window.history.pushState({}, "", newUrl);
+  } else {
+    step = stepQuery ? parseInt(stepQuery) : 1;
+  }
+
+  const [currentStep, setCurrentStep] = useState(step);
   const [complete, setComplete] = useState(false);
 
-  const stepHandler = () => {
-    currentStep === steps.length
-      ? setComplete(true)
-      : setCurrentStep((prev) => prev + 1);
+  useEffect(() => {
+    if (step > steps.length) {
+      setComplete(true);
+    }
+
+    setCurrentStep(step);
+  }, [step, steps.length]);
+
+  const handleNext = () => {
+    if (currentStep === steps.length) {
+      setComplete(true);
+    } else {
+      if (onStepChange) {
+        const newStep = currentStep + 1;
+        const newUrl = `/checkout?step=${newStep}`;
+        window.history.pushState({}, "", newUrl);
+        setCurrentStep(newStep);
+        onStepChange(newStep);
+      }
+    }
   };
 
   return (
@@ -33,8 +70,8 @@ const Stepper = () => {
         ))}
       </div>
       {!complete && (
-        <Button onClick={stepHandler}>
-          {currentStep === steps.length ? "Finish" : "Next"}
+        <Button onClick={handleNext}>
+          {currentStep === steps.length ? `Finish` : `Next`}
         </Button>
       )}
     </>
