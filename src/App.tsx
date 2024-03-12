@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MyLoader from "@/components/myLoader";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import ScrollToTop from "@/components/scrollToTop";
 
 const HomePage = lazy(() => import("@/pages/Home/homePage"));
 const SignUpPage = lazy(() => import("@/pages/Register/SignUpPage"));
@@ -25,25 +26,27 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
-        <Header />
-        <Suspense fallback={<MyLoader />}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<SignUpPage />} />
-            <Route path="/login" element={<SignInPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/product/:productId" element={<ProductInfoPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
+        <ScrollToTop>
+          <Header />
+          <Suspense fallback={<MyLoader />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/register" element={<SignUpPage />} />
+              <Route path="/login" element={<SignInPage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/product/:productId" element={<ProductInfoPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
 
-            {/* SELLER ROUTES */}
-            <Route path="/seller/register" element={<SellerRegisterPage />} />
-            <Route path="/seller/login" element={<SellerLoginPage />} />
+              {/* SELLER ROUTES */}
+              <Route path="/seller/register" element={<SellerRegisterPage />} />
+              <Route path="/seller/login" element={<SellerLoginPage />} />
 
-            <Route path="/*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
-        <Footer />
+              <Route path="/*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
+          <Footer />
+        </ScrollToTop>
       </BrowserRouter>
     </div>
   );
