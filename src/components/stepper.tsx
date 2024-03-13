@@ -17,15 +17,16 @@ const Stepper = ({ onStepChange }: StepperProps) => {
   const querySearch = new URLSearchParams(location.search);
 
   const stepQuery = querySearch.get("step");
+  const step = stepQuery ? parseInt(stepQuery) : 1;
 
-  let step: number = 1;
-
-  if (!stepQuery) {
-    const newUrl = `/checkout?step=1`;
-    window.history.pushState({}, "", newUrl);
-  } else {
-    step = stepQuery ? parseInt(stepQuery) : 1;
-  }
+  
+  // let step: number = 1;
+  // if (!stepQuery) {
+  //   const newUrl = `/checkout?step=1`;
+  //   window.history.pushState({}, "", newUrl);
+  // } else {
+  //   step = stepQuery ? parseInt(stepQuery) : 1;
+  // }
 
   const [currentStep, setCurrentStep] = useState(step);
   const [complete, setComplete] = useState(false);

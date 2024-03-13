@@ -23,118 +23,13 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { registerFormSchema } from "@/lib/formSchema";
 // import { registerUser } from "@/api/auth";
 
-const formSchema = z
-  .object({
-    fname: z.string().min(1, { message: "Required" }),
-    lname: z.string().min(1, { message: "Required" }),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters." }),
-    accountType: z.enum(["buyer", "seller"]),
-    shopName: z.string().optional(),
-    shopDescription: z.string().optional(),
-    file: z.instanceof(FileList).optional(),
-    contactNo: z.string().optional(),
-    street: z.string().optional(),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    zipCode: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.accountType === "seller") {
-        return !!data.shopName;
-      }
-      return true;
-    },
-    {
-      message: "Shop name is required",
-      path: ["shopName"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.accountType === "seller") {
-        return !!data.shopDescription;
-      }
-      return true;
-    },
-    {
-      message: "Shop description is required",
-      path: ["shopDescription"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.contactNo === undefined) {
-        return true;
-      }
-
-      if (data.accountType === "seller") {
-        return /^\d{10}$/.test(data.contactNo);
-      }
-      return true;
-    },
-    {
-      message: "Contact number must be 10 digits",
-      path: ["contactNo"],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.accountType === "seller") {
-        return !!(data.file?.length === 1);
-      }
-      return true;
-    },
-    {
-      message: "Shop image is required",
-      path: ["file"],
-    }
-  )
-  .refine((data) => {
-    if (data.accountType === "seller") {
-      return !!data.street;
-    }
-    return true;
-  }, {
-    message: "Address is required",
-    path: ["street"]
-  })
-  .refine((data) => {
-    if (data.accountType === "seller") {
-      return !!data.city;
-    }
-    return true;
-  }, {
-    message: "Address is required",
-    path: ["city"]
-  })
-  .refine((data) => {
-    if (data.accountType === "seller") {
-      return !!data.state;
-    }
-    return true;
-  }, {
-    message: "Address is required",
-    path: ["state"]
-  })
-  .refine((data) => {
-    if (data.accountType === "seller") {
-      return !!data.zipCode;
-    }
-    return true;
-  }, {
-    message: "Address is required",
-    path: ["zipCode"]
-  })
 
 const SignUpPage = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       fname: "",
       lname: "",
@@ -154,7 +49,7 @@ const SignUpPage = () => {
   const accountType = form.watch("accountType");
   const fileRef = form.register("file");
 
-  async function registerHandler(values: z.infer<typeof formSchema>) {
+  async function registerHandler(values: z.infer<typeof registerFormSchema>) {
     if (accountType === "buyer") {
       const newBuyer = {
         fname: values.fname,
