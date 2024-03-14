@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "@/css/stepper.css";
-import { Button } from "./ui/button";
+import DeliveryAddressForm from "@/pages/Checkout/DeliveryAddressForm";
+import OrderSummary from "@/pages/Checkout/OrderSummary";
 
-type StepperProps = {
-  step: number;
-  onStepChange: (currentStep: number) => void;
-};
-
-const Stepper = ({ onStepChange }: StepperProps) => {
+const Stepper = () => {
   const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
 
   const location = useLocation();
@@ -19,17 +15,10 @@ const Stepper = ({ onStepChange }: StepperProps) => {
   const stepQuery = querySearch.get("step");
   const step = stepQuery ? parseInt(stepQuery) : 1;
 
-  
-  // let step: number = 1;
-  // if (!stepQuery) {
-  //   const newUrl = `/checkout?step=1`;
-  //   window.history.pushState({}, "", newUrl);
-  // } else {
-  //   step = stepQuery ? parseInt(stepQuery) : 1;
-  // }
-
   const [currentStep, setCurrentStep] = useState(step);
   const [complete, setComplete] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (step > steps.length) {
@@ -43,13 +32,21 @@ const Stepper = ({ onStepChange }: StepperProps) => {
     if (currentStep === steps.length) {
       setComplete(true);
     } else {
-      if (onStepChange) {
-        const newStep = currentStep + 1;
-        const newUrl = `/checkout?step=${newStep}`;
-        window.history.pushState({}, "", newUrl);
-        setCurrentStep(newStep);
-        onStepChange(newStep);
-      }
+      const newStep = currentStep + 1;
+      navigate(`/checkout?step=${newStep}`);
+
+      setCurrentStep(newStep);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep === 1) {
+      setComplete(false);
+    } else {
+      const newStep = currentStep - 1;
+      navigate(`/checkout?step=${newStep}`);
+
+      setCurrentStep(newStep);
     }
   };
 
@@ -70,11 +67,22 @@ const Stepper = ({ onStepChange }: StepperProps) => {
           </div>
         ))}
       </div>
-      {!complete && (
-        <Button onClick={handleNext}>
-          {currentStep === steps.length ? `Finish` : `Next`}
-        </Button>
-      )}
+      {/* <Button onClick={handleNext}>
+        {currentStep === steps.length ? `Finish` : `Next`}
+      </Button>
+      <Button onClick={handlePrev}>Back</Button> */}
+
+      <main className="mt-8">
+        {currentStep === 2 && (
+          <DeliveryAddressForm
+            step={step}
+            onPrevious={handlePrev}
+            onNext={handleNext}
+          />
+        )}
+        {currentStep === 3 && <OrderSummary />}
+        {currentStep === 4 && <p>Payment</p>}
+      </main>
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// REGISTER USER FORM
 export const registerFormSchema = z
   .object({
     fname: z.string().min(1, { message: "Required" }),
@@ -118,3 +119,19 @@ export const registerFormSchema = z
       path: ["zipCode"],
     }
   );
+
+// DELIVERRY ADDRESS FORM
+export const deliveryAddressFromSchema = z.object({
+  fname: z.string().min(1, { message: "Required" }),
+  lname: z.string().min(1, { message: "Required" }),
+  street: z.string().min(1, { message: "Required" }),
+  city: z.string().min(1, { message: "Required" }),
+  state: z.string().min(1, { message: "Required" }),
+  zipCode: z.string().min(1, { message: "Required" }),
+  contactNo: z
+    .string()
+    .min(1, { message: "Required" })
+    .refine((data) => {
+      return /^\d{10}$/.test(data);
+    }),
+});
