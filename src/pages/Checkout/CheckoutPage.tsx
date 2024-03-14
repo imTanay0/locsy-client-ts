@@ -19,14 +19,9 @@ const CheckoutPage = () => {
   // };
 
   return (
-    <div className="min-h-[100svh] px-4 md:px-6 py-12">
+    <div className="min-h-[100svh] px-4 md:px-6 py-12 container">
       <Stepper />
       {/* <Stepper step={step} onStepChange={handleStepChange} /> */}
-      <main>
-        {/* {currentStep === 2 && <DeliveryAddressForm />}
-        {currentStep === 3 && <OrderSummary />}
-        {currentStep === 4 && <p>Payment</p>} */}
-      </main>
     </div>
   );
 };

@@ -49,7 +49,7 @@ const DeliveryAddressForm = ({ onPrevious }: DeliveryAddressFormProps) => {
   return (
     <div className="flex flex-col lg:flex-row gap-8 justify-between w-full">
       <div className="p-5 w-full lg:w-[33%] shadow-custom overflow-y-scroll max-h-[512px] rounded-lg">
-        <AddressCard />
+        <AddressCard button />
       </div>
       <div className=" p-5 flex flex-col items-center flex-1 shadow-custom rounded-lg">
         <Form {...form}>

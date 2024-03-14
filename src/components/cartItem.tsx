@@ -22,7 +22,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
     cartItem;
 
   return (
-    <div className="flex flex-col md:flex-row gap-5 p-4 shadow-lg rounded-lg bg-gray-50">
+    <div className="flex flex-col md:flex-row gap-5 p-4 rounded-lg bg-gray-50">
       <Link to={`/product/${_id}`} className="mx-auto">
         <img
           src={productImg}

@@ -52,7 +52,7 @@ const CartPage = () => {
             <p>Total Amount</p>
             <p>&#8377;{total}</p>
           </div>
-          <Link to="/checkout">
+          <Link to="/checkout?step=2">
             <Button className="mt-2 w-full">Check Out</Button>
           </Link>
         </div>
