@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
 
-const user = { _id: "", role: 3 };
+const user = { _id: "123", role: 3 };
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -26,6 +26,7 @@ const Header = () => {
   const logoutHandler = () => {
     setIsDialogOpen(false);
     console.log("Logged out");
+    alert("Logged out");
   };
 
   return (
@@ -55,19 +56,32 @@ const Header = () => {
               </button>
               <dialog
                 open={isDialogOpen}
-                className="bg-slate-600 text-gray-100 p-4 w-28 rounded-md top-[8%] left-[calc(94%-112px)]"
+                className="bg-slate-200 p-4 w-28 rounded-md top-[8%] left-[calc(94%-112px)]"
               >
                 <div className="flex flex-col gap-3 align-middle items-center">
+                  <Link
+                    to="/account"
+                    className="hover:underline underline-offset-4"
+                    onClick={() => setIsDialogOpen(false)}
+                  >
+                    Profile
+                  </Link>
+
                   {(user.role === 1 || user.role === 2) && (
                     <Link
                       to="/dashboard"
+                      className="hover:underline underline-offset-4"
                       onClick={() => setIsDialogOpen(false)}
                     >
                       Dashboard
                     </Link>
                   )}
 
-                  <Link to="/orders" onClick={() => setIsDialogOpen(false)}>
+                  <Link
+                    to="/orders"
+                    className="hover:underline underline-offset-4"
+                    onClick={() => setIsDialogOpen(false)}
+                  >
                     Orders
                   </Link>
                   <p
