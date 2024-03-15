@@ -26,16 +26,19 @@ function App() {
   return (
     <div className="">
       <BrowserRouter>
+        <Header />
         <ScrollToTop>
-          <Header />
           <Suspense fallback={<MyLoader />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/register" element={<SignUpPage />} />
-              <Route path="/login" element={<SignInPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/product/:productId" element={<ProductInfoPage />} />
               <Route path="/cart" element={<CartPage />} />
+
+              {/* LOGGED IN ROUTES */}
+
+              <Route path="/register" element={<SignUpPage />} />
+              <Route path="/login" element={<SignInPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
 
               {/* SELLER ROUTES */}
@@ -45,8 +48,8 @@ function App() {
               <Route path="/*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
-          <Footer />
         </ScrollToTop>
+        <Footer />
       </BrowserRouter>
     </div>
   );

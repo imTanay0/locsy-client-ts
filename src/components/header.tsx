@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
 
-const user = { _id: "123", role: 3 };
+const user = { _id: "123", role: 2 };
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -56,12 +56,12 @@ const Header = () => {
               </button>
               <dialog
                 open={isDialogOpen}
-                className="bg-slate-200 p-4 w-28 rounded-md top-[8%] left-[calc(94%-112px)]"
+                className="bg-slate-200 py-1 w-28 rounded-sm top-[8%] left-[calc(94%-112px)] z-50"
               >
-                <div className="flex flex-col gap-3 align-middle items-center">
+                <div className="flex flex-col align-middle items-center text-center">
                   <Link
                     to="/account"
-                    className="hover:underline underline-offset-4"
+                    className=" w-full py-1 hover:bg-slate-300"
                     onClick={() => setIsDialogOpen(false)}
                   >
                     Profile
@@ -70,8 +70,8 @@ const Header = () => {
                   {(user.role === 1 || user.role === 2) && (
                     <Link
                       to="/dashboard"
-                      className="hover:underline underline-offset-4"
                       onClick={() => setIsDialogOpen(false)}
+                      className="w-full py-1 hover:bg-slate-300"
                     >
                       Dashboard
                     </Link>
@@ -79,13 +79,13 @@ const Header = () => {
 
                   <Link
                     to="/orders"
-                    className="hover:underline underline-offset-4"
                     onClick={() => setIsDialogOpen(false)}
+                    className="w-full py-1 hover:bg-slate-300"
                   >
                     Orders
                   </Link>
                   <p
-                    className="text-red-500 cursor-pointer"
+                    className="text-red-500 w-full py-1 hover:bg-slate-300"
                     onClick={logoutHandler}
                   >
                     Sign Out
