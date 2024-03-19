@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
-import SearchBox from "./component/searchBox";
+import SearchBox from "./searchBox";
 import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
