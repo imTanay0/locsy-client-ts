@@ -15,6 +15,7 @@ const ProductInfoPage = lazy(
 );
 const CartPage = lazy(() => import("@/pages/Cart/CartPage"));
 const CheckoutPage = lazy(() => import("@/pages/Checkout/CheckoutPage"));
+const OrdersPage = lazy(() => import("@/pages/Orders/OrdersPage"));
 
 const NotFoundPage = lazy(() => import("@/components/notFoundPage"));
 const SellerRegisterPage = lazy(
@@ -35,11 +36,12 @@ function App() {
               <Route path="/product/:productId" element={<ProductInfoPage />} />
               <Route path="/cart" element={<CartPage />} />
 
-              {/* LOGGED IN ROUTES */}
-
               <Route path="/register" element={<SignUpPage />} />
               <Route path="/login" element={<SignInPage />} />
+
+              {/* LOGGED IN ROUTES */}
               <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
 
               {/* SELLER ROUTES */}
               <Route path="/seller/register" element={<SellerRegisterPage />} />
