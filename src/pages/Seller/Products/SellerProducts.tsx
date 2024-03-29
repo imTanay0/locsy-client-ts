@@ -19,7 +19,7 @@ import { productsDemoData } from "@/data/productDemoData";
 const SellerProducts = () => {
   return (
     <div className="min-h-screen overflow-hidden p-4 md:p-6">
-      <h1 className="font-semibold text-2xl h-fit">Recent Orders</h1>
+      <h1 className="font-semibold text-2xl h-fit">Products</h1>
       <main className="mt-10 flex flex-1 flex-col gap-4">
         <div className="border shadow-sm rounded-lg p-2">
           <Table>
