@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
 
-const user = { _id: "123", role: 3 };
+const user = { _id: "123", role: 2 };
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -67,9 +67,18 @@ const Header = () => {
                     Profile
                   </Link>
 
-                  {(user.role === 1 || user.role === 2) && (
+                  {user.role === 1 && (
                     <Link
-                      to="/dashboard"
+                      to="/admin"
+                      onClick={() => setIsDialogOpen(false)}
+                      className="w-full py-1 hover:bg-slate-300"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
+                  {user.role === 2 && (
+                    <Link
+                      to="/seller"
                       onClick={() => setIsDialogOpen(false)}
                       className="w-full py-1 hover:bg-slate-300"
                     >

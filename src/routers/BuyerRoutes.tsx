@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import NotFoundPage from "@/components/notFoundPage";
 
 const HomePage = lazy(() => import("@/pages/Home/homePage"));
 const SignUpPage = lazy(() => import("@/pages/Register/SignUpPage"));
@@ -31,6 +32,8 @@ const BuyerRoutes = () => {
         {/* LOGGED IN ROUTES */}
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/orders" element={<OrdersPage />} />
+
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </div>

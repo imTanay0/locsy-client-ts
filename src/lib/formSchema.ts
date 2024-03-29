@@ -135,3 +135,25 @@ export const deliveryAddressFromSchema = z.object({
       return /^\d{10}$/.test(data);
     }),
 });
+
+// PRODUCT UPLOAD FORM
+export const uploadProductFormSchema = z
+  .object({
+    productName: z.string().min(1, { message: "Required" }),
+    productDescription: z.string().min(1, { message: "Required" }),
+    price: z.coerce.number().min(1, { message: "Price must be at least 1" }),
+    stock: z.coerce.number().min(1, { message: "Stock must be at least 1" }),
+    file: z.instanceof(FileList).optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.file?.length === 0) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Product image is required",
+      path: ["file"],
+    }
+  );

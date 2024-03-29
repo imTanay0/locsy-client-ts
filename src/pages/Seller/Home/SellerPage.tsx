@@ -1,7 +1,9 @@
 
 const SellerPage = () => {
   return (
-    <div>SellerPage</div>
+    <div>
+      SellerPage
+    </div>
   )
 }
 

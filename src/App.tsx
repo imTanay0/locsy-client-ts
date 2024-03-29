@@ -1,12 +1,10 @@
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MyLoader from "@/components/myLoader";
 import ScrollToTop from "@/components/scrollToTop";
-import SellerRoutes from "@/routers/SellerRoutes";
 import BuyerRoutes from "@/routers/BuyerRoutes";
-
-const NotFoundPage = lazy(() => import("@/components/notFoundPage"));
+import SellerRoutes from "@/routers/SellerRoutes";
 
 function App() {
   return (
@@ -19,8 +17,6 @@ function App() {
 
               {/* SELLER ROUTES */}
               <Route path="/seller/*" element={<SellerRoutes />} />
-
-              <Route path="/*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
         </ScrollToTop>
