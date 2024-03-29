@@ -1,165 +1,104 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
-
+import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { deliveryAddressFromSchema } from "@/lib/formSchema";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import { productsDemoData } from "@/data/productDemoData";
 
 const SellerProducts = () => {
-  const navigate = useNavigate();
-
-  const form = useForm<z.infer<typeof deliveryAddressFromSchema>>({
-    resolver: zodResolver(deliveryAddressFromSchema),
-    defaultValues: {
-      fname: "",
-      lname: "",
-      street: "",
-      city: "",
-      state: "",
-      zipCode: "",
-      contactNo: "",
-    },
-  });
-
-  async function handleDeliveryForm(
-    values: z.infer<typeof deliveryAddressFromSchema>
-  ) {
-    console.log(values);
-    navigate(`/checkout?step=3`);
-  }
-
   return (
-    <div className="flex flex-col lg:flex-row gap-8 justify-between w-full">
-      <div className=" p-5 flex flex-col items-center flex-1 shadow-custom rounded-lg">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleDeliveryForm)}
-            className="space-y-4  w-full"
-          >
-            <div className="flex gap-4">
-              <FormField
-                control={form.control}
-                name="fname"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>First name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your first name" {...field} />
-                    </FormControl>
+    <div className="min-h-screen overflow-hidden p-4 md:p-6">
+      <h1 className="font-semibold text-2xl h-fit">Recent Orders</h1>
+      <main className="mt-10 flex flex-1 flex-col gap-4">
+        <div className="border shadow-sm rounded-lg p-2">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Product ID</TableHead>
+                <TableHead className="">Product Image</TableHead>
+                <TableHead className="">Product Name</TableHead>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lname"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Last name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your last name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="street"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Street</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Street" rows={4} {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex gap-4">
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="City" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>State</FormLabel>
-                    <FormControl>
-                      <Input placeholder="State" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex gap-4">
-              <FormField
-                control={form.control}
-                name="zipCode"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Zip code</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Zip code" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="contactNo"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Contact number</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your contact number"
-                        {...field}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </form>
-        </Form>
-      </div>
+                <TableHead className="hidden md:table-cell">Date</TableHead>
+                <TableHead className="text-right">Price</TableHead>
+                <TableHead className="hidden sm:table-cell">Stock</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {productsDemoData.map((product) => (
+                <TableRow key={product._id}>
+                  <TableCell className="font-medium">{product._id}</TableCell>
+                  <TableCell>
+                    <img
+                      src={product.productImg}
+                      alt="product"
+                      className="w-12 h-12 object-cover rounded-full"
+                    />
+                  </TableCell>
+                  <TableCell>{product.productName}</TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    February 20, 2022
+                  </TableCell>
+                  <TableCell className="text-right">{product.price}</TableCell>
+                  <TableCell className="hidden sm:table-cell">1</TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="icon" variant="ghost">
+                          <MoreHorizontalIcon className="w-4 h-4" />
+                          <span className="sr-only">Actions</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem className="cursor-pointer">
+                          Update
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer">
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </main>
     </div>
   );
 };
+
+function MoreHorizontalIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+      <circle cx="5" cy="12" r="1" />
+    </svg>
+  );
+}
 
 export default SellerProducts;

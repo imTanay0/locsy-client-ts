@@ -38,7 +38,7 @@ const UploadProducts = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-6">
-      <h1 className="font-semibold text-2xl h-fit mb-10">Recent Orders</h1>
+      <h1 className="font-semibold text-2xl h-fit mb-10">Upload Products</h1>
       <div className="flex flex-col lg:flex-row gap-8 justify-between w-full">
         <div className=" p-5 flex flex-col items-center flex-1 shadow-custom rounded-lg">
           <Form {...form}>

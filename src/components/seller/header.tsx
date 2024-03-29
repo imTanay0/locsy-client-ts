@@ -3,21 +3,12 @@ import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   ArrowUpFromLine,
   HomeIcon,
   Package2Icon,
   PackageIcon,
   ShoppingCartIcon
 } from "lucide-react";
-import { Button } from "../ui/button";
 
 const Header = () => {
   return (
@@ -74,7 +65,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <div className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-2 md:px-6 dark:bg-gray-800/40">
           <div className="flex flex-1 items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
             <DropdownMenu>
@@ -105,7 +96,7 @@ const Header = () => {
             </DropdownMenu>
           </div>
         </div>
-      </div>
+      </div> */}
     </nav>
   );
 };
