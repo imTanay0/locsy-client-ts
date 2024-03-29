@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ListFilter } from "lucide-react";
 
 import ProductCard from "@/components/productCard";
 import { Input } from "@/components/ui/input";
@@ -41,7 +42,10 @@ const ProductsPage = () => {
   return (
     <div className="min-h-[100svh] md:px-6 py-12 container flex flex-col md:flex-row gap-5">
       <aside className="w-full md:w-[22%] h-fit px-4 py-5 flex flex-col gap-4 shadow-custom rounded-lg">
-        <h2 className="text-2xl font-semibold">Filters</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-semibold">Filters</h2>
+          <ListFilter width={24} />
+        </div>
         <div className="w-full">
           <h4 className="text-lg mb-2">Sort</h4>
           <Select value={sort} onValueChange={(val) => setSort(val)}>
