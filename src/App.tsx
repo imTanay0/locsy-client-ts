@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MyLoader from "@/components/myLoader";
 import ScrollToTop from "@/components/scrollToTop";
-import BuyerRoutes from "@/routers/BuyerRoutes";
-import SellerRoutes from "@/routers/SellerRoutes";
+import BuyerRoutes from "@/routes/BuyerRoutes";
+import SellerRoutes from "@/routes/SellerRoutes";
 
 function App() {
   return (

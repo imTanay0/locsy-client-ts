@@ -61,9 +61,9 @@ const SellerProducts = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="cursor-pointer">
+                        {/* <DropdownMenuItem className="cursor-pointer">
                           Update
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem className="cursor-pointer">
                           Delete
                         </DropdownMenuItem>
