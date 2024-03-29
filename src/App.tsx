@@ -1,57 +1,29 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MyLoader from "@/components/myLoader";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import ScrollToTop from "@/components/scrollToTop";
-
-const HomePage = lazy(() => import("@/pages/Home/homePage"));
-const SignUpPage = lazy(() => import("@/pages/Register/SignUpPage"));
-const SignInPage = lazy(() => import("@/pages/Login/SignInPage"));
-const ProductsPage = lazy(() => import("@/pages/Products/ProductsPage"));
-const ProductInfoPage = lazy(
-  () => import("@/pages/ProductInfo/ProductInfoPage")
-);
-const CartPage = lazy(() => import("@/pages/Cart/CartPage"));
-const CheckoutPage = lazy(() => import("@/pages/Checkout/CheckoutPage"));
-const OrdersPage = lazy(() => import("@/pages/Orders/OrdersPage"));
+import SellerRoutes from "@/routers/SellerRoutes";
+import BuyerRoutes from "@/routers/BuyerRoutes";
 
 const NotFoundPage = lazy(() => import("@/components/notFoundPage"));
-const SellerRegisterPage = lazy(
-  () => import("@/pages/Seller/SellerRegisterPage")
-);
-const SellerLoginPage = lazy(() => import("@/pages/Seller/SellerLoginPage"));
 
 function App() {
   return (
     <div className="">
       <BrowserRouter>
-        <Header />
         <ScrollToTop>
           <Suspense fallback={<MyLoader />}>
             <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/product/:productId" element={<ProductInfoPage />} />
-              <Route path="/cart" element={<CartPage />} />
-
-              <Route path="/register" element={<SignUpPage />} />
-              <Route path="/login" element={<SignInPage />} />
-
-              {/* LOGGED IN ROUTES */}
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/*" element={<BuyerRoutes />} />
 
               {/* SELLER ROUTES */}
-              <Route path="/seller/register" element={<SellerRegisterPage />} />
-              <Route path="/seller/login" element={<SellerLoginPage />} />
+              <Route path="/seller/*" element={<SellerRoutes />} />
 
               <Route path="/*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
         </ScrollToTop>
-        <Footer />
       </BrowserRouter>
     </div>
   );
