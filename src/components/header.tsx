@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
 
-const user = { _id: "123", role: 2 };
+const user = { _id: "", role: 3 };
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);

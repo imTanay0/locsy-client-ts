@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { toast } from "sonner";
 
 import {
@@ -22,6 +23,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { auth } from "@/firebase";
+import GoogleIcon from "@/assets/GoogleIcon.png";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -64,11 +67,11 @@ const SignInPage = () => {
         const result = await response.json();
 
         if (!result.success) {
-          toast.error(result.message);
+          toast.error("Login Failed");
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        toast.success("Registered Successfully");
+        toast.success("Login Successfully");
       } catch (error) {
         console.error("Error: ", error);
       }
@@ -80,6 +83,14 @@ const SignInPage = () => {
 
     form.reset();
   }
+
+  const googleLoginHandler = async () => {
+    if (accountType === "buyer") {
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+      console.log(user);
+    }
+  };
 
   return (
     <main className="min-h-[100svh] flex flex-col items-center p-5 md:p-20">
@@ -145,9 +156,20 @@ const SignInPage = () => {
               </FormItem>
             )}
           />
-          <div className="w-full pt-3">
+          <div className="w-full pt-3 flex flex-col gap-2">
             <Button type="submit" className="w-full">
               Login
+            </Button>
+            <p className="mx-auto text-base md:text-lg">Or</p>
+            <Button
+              className="w-full"
+              variant={"outline"}
+              onClick={googleLoginHandler}
+            >
+              <span className="flex items-center gap-1">
+                <img src={GoogleIcon} alt="google_icon" className="w-8" />
+                Login with google
+              </span>
             </Button>
           </div>
         </form>
