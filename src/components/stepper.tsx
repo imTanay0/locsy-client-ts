@@ -44,7 +44,8 @@ const Stepper = () => {
       setComplete(false);
     } else {
       const newStep = currentStep - 1;
-      navigate(`/checkout?step=${newStep}`);
+      // navigate(`/checkout?step=${newStep}`);
+      navigate("/login")
 
       setCurrentStep(newStep);
     }
