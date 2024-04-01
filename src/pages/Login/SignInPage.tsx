@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import axios, { AxiosError } from "axios";
-import { useDispatch } from "react-redux";
 
 import GoogleIcon from "@/assets/GoogleIcon.png";
 import { Button } from "@/components/ui/button";
