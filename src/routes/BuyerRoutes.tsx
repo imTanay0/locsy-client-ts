@@ -1,9 +1,12 @@
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import NotFoundPage from "@/components/notFoundPage";
+import { RootState } from "@/redux/store";
+import { BuyerState } from "@/types/reducer-types";
 
 const HomePage = lazy(() => import("@/pages/Home/homePage"));
 const SignUpPage = lazy(() => import("@/pages/Register/SignUpPage"));
@@ -17,9 +20,11 @@ const CheckoutPage = lazy(() => import("@/pages/Checkout/CheckoutPage"));
 const OrdersPage = lazy(() => import("@/pages/Orders/OrdersPage"));
 
 const BuyerRoutes = () => {
+  const { user } = useSelector<RootState, BuyerState>((state) => state.buyer);
+
   return (
     <div>
-      <Header />
+      <Header user={user} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />

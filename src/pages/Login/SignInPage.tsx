@@ -1,10 +1,14 @@
-import { z } from "zod";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { z } from "zod";
+import axios, { AxiosError } from "axios";
+import { useDispatch } from "react-redux";
 
+import GoogleIcon from "@/assets/GoogleIcon.png";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -24,7 +27,13 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@/firebase";
-import GoogleIcon from "@/assets/GoogleIcon.png";
+
+import {
+  buyerLoginFailure,
+  buyerLoginStart,
+  buyerLoginSuccess,
+} from "@/redux/slice/buyerSlice";
+import { server } from "@/redux/store";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -35,6 +44,8 @@ const formSchema = z.object({
 });
 
 const SignInPage = () => {
+  const dispatch = useDispatch();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,33 +58,28 @@ const SignInPage = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (accountType === "buyer") {
-      const newBuyer = {
+      const buyer = {
         email: values.email,
         password: values.password,
       };
 
       try {
-        const response = await fetch(
-          "http://localhost:8000/api/v1/buyer/login",
-          {
-            method: "POST",
-            body: JSON.stringify(newBuyer),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        dispatch(buyerLoginStart());
+        const { data } = await axios.post(
+          `${server}/api/v1/buyer/login`,
+          buyer
         );
 
-        const result = await response.json();
-
-        if (!result.success) {
-          toast.error("Login Failed");
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if (data.success) {
+          toast.success(data.message);
+          dispatch(buyerLoginSuccess(data));
+        } else {
+          toast.error(data.message);
+          dispatch(buyerLoginFailure(data.message));
         }
-
-        toast.success("Login Successfully");
       } catch (error) {
-        console.error("Error: ", error);
+        toast.error(error.response.data.message);
+        dispatch(buyerLoginFailure(error.response.data.message));
       }
     }
 
@@ -81,7 +87,7 @@ const SignInPage = () => {
       console.log(values);
     }
 
-    form.reset();
+    // form.reset();
   }
 
   const googleLoginHandler = async () => {

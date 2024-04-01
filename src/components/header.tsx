@@ -16,10 +16,13 @@ import SearchBox from "./searchBox";
 import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
+import { User } from "@/types/types";
 
-const user = { _id: "", role: 3 };
+type HeaderProps = {
+  user: User | null;
+};
 
-const Header = () => {
+const Header = ({ user }: HeaderProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
