@@ -11,7 +11,10 @@ export const store = configureStore({
     [buyerAPI.reducerPath]: buyerAPI.reducer,
     [buyerSlice.name]: buyerReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({}),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(buyerAPI.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

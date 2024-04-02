@@ -17,6 +17,30 @@ export const buyerSlice = createSlice({
   name: "buyer",
   initialState,
   reducers: {
+    buyerRegisterStart: (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.isSuccess = false;
+      state.message = "";
+    },
+    buyerRegisterSuccess: (
+      state,
+      action: PayloadAction<BuyerReducerInitialState>
+    ) => {
+      state.user = action.payload.user;
+      state.buyer = action.payload.role;
+      state.isLoading = false;
+      state.isAuthenticated = true;
+      state.isSuccess = true;
+    },
+    buyerRegisterFailure: (state, action) => {
+      state.user = null;
+      state.buyer = null;
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.isError = true;
+      state.message = action.payload;
+    },
     buyerLoginStart: (state) => {
       state.isLoading = true;
       state.isError = false;
@@ -41,7 +65,12 @@ export const buyerSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
     },
-
+    buyerLogout: (state) => {
+      state.user = null;
+      state.buyer = null;
+      state.isLoading = false;
+      state.isAuthenticated = false;
+    },
     buyerExist: (state, action: PayloadAction<BuyerReducerInitialState>) => {
       state.user = action.payload.user;
       state.buyer = action.payload.buyer;
@@ -58,9 +87,13 @@ export const buyerSlice = createSlice({
 });
 
 export const {
+  buyerRegisterStart,
+  buyerRegisterSuccess,
+  buyerRegisterFailure,
   buyerLoginStart,
   buyerLoginFailure,
   buyerLoginSuccess,
+  buyerLogout,
   buyerExist,
   buyerNotExist,
 } = buyerSlice.actions;

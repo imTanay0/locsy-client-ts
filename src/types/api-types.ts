@@ -8,12 +8,20 @@ export type MessageResponse = {
   role?: Buyer;
 };
 
-export type AxiosErrorWithData = AxiosError & {
+export type AxiosErrorWithMessage = AxiosError & {
   response: {
-    data: MessageResponse;
+    data: {
+      message: string;
+    };
     status: number;
     statusText: string;
     request: XMLHttpRequest;
   };
 };
 
+export type RegisterBuyer = {
+  fname: string;
+  lname: string;
+  email: string;
+  password: string;
+};

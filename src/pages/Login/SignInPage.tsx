@@ -34,7 +34,7 @@ import {
   buyerLoginSuccess,
 } from "@/redux/slice/buyerSlice";
 import { server } from "@/redux/store";
-import { AxiosErrorWithData } from "@/types/api-types";
+import { AxiosErrorWithMessage } from "@/types/api-types";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -68,19 +68,28 @@ const SignInPage = () => {
         dispatch(buyerLoginStart());
         const { data } = await axios.post(
           `${server}/api/v1/buyer/login`,
-          buyer
+          buyer,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
 
-        toast.success(data.message);
-        dispatch(buyerLoginSuccess(data.message));
+        if (data.success) {
+          toast.success(data.message);
+          dispatch(buyerLoginSuccess(data));
+        }
       } catch (error) {
         if (error instanceof Error) {
-          const errorMessage = (error as AxiosErrorWithData).response?.data
+          const errorMessage = (error as AxiosErrorWithMessage).response?.data
             .message;
           toast.error(errorMessage);
           dispatch(buyerLoginFailure(errorMessage));
         } else {
           console.error(error);
+          toast.error("Internal Server Error");
         }
       }
     }

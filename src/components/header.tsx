@@ -10,6 +10,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
+import axios from "axios";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 import SearchBox from "./searchBox";
@@ -17,6 +18,11 @@ import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import logo from "../assets/logo.png";
 import { User } from "@/types/types";
+import { useDispatch } from "react-redux";
+import { buyerLogout } from "@/redux/slice/buyerSlice";
+import { server } from "@/redux/store";
+import { toast } from "sonner";
+import { AxiosErrorWithMessage } from "@/types/api-types";
 
 type HeaderProps = {
   user: User | null;
@@ -25,11 +31,30 @@ type HeaderProps = {
 const Header = ({ user }: HeaderProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const dispatch = useDispatch();
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     setIsDialogOpen(false);
-    console.log("Logged out");
-    alert("Logged out");
+    try {
+      const { data } = await axios.get(`${server}/api/v1/buyer/logout`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      toast.success(data.message);
+      dispatch(buyerLogout());
+    } catch (error) {
+      if (error instanceof Error) {
+        const errorMessage = (error as AxiosErrorWithMessage).response?.data
+          .message;
+        toast.error(errorMessage);
+      } else {
+        console.error(error);
+        toast.error("Internal Server Error");
+      }
+    }
   };
 
   return (
@@ -97,7 +122,7 @@ const Header = ({ user }: HeaderProps) => {
                     Orders
                   </Link>
                   <p
-                    className="text-red-500 w-full py-1 hover:bg-slate-300"
+                    className="text-red-500 w-full py-1 hover:bg-slate-300 cursor-pointer"
                     onClick={logoutHandler}
                   >
                     Sign Out
