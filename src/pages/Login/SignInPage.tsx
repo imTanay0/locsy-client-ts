@@ -98,7 +98,7 @@ const SignInPage = () => {
       console.log(values);
     }
 
-    // form.reset();
+    form.reset();
   }
 
   const googleLoginHandler = async () => {

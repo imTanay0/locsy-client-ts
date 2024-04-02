@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { BuyerReducerInitialState } from "@/types/reducer-types";
+import { MessageResponse } from "@/types/api-types";
 
 export const initialState: BuyerReducerInitialState = {
   user: null,
@@ -25,7 +26,7 @@ export const buyerSlice = createSlice({
     },
     buyerRegisterSuccess: (
       state,
-      action: PayloadAction<BuyerReducerInitialState>
+      action: PayloadAction<MessageResponse>
     ) => {
       state.user = action.payload.user;
       state.buyer = action.payload.role;

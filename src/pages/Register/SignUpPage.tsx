@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useDispatch } from "react-redux";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,9 +25,20 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+
 import { registerFormSchema } from "@/lib/formSchema";
+import { useBuyerCreateMutation } from "@/redux/api/buyerAPI";
+import { MessageResponse } from "@/types/api-types";
+import {
+  buyerRegisterStart,
+  buyerRegisterSuccess,
+  buyerRegisterFailure,
+} from "@/redux/slice/buyerSlice";
 
 const SignUpPage = () => {
+  const dispatch = useDispatch();
+
+  const [buyerCreate] = useBuyerCreateMutation();
 
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -58,25 +71,19 @@ const SignUpPage = () => {
       };
 
       try {
-        const response = await fetch(
-          "http://localhost:8000/api/v1/buyer/register",
-          {
-            method: "POST",
-            body: JSON.stringify(newBuyer),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        dispatch(buyerRegisterStart());
+        const response = await buyerCreate(newBuyer);
 
-        const result = await response.json();
-
-        if (!result.success) {
-          toast.error(result.message);
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if ("data" in response) {
+          const data = response.data;
+          toast.success(data.message);
+          dispatch(buyerRegisterSuccess(data));
+        } else {
+          const error = response.error as FetchBaseQueryError;
+          const errorMessage = (error.data as MessageResponse).message;
+          toast.error(errorMessage);
+          buyerRegisterFailure(errorMessage);
         }
-
-        toast.success("Registered Successfully");
       } catch (error) {
         console.error("Error: ", error);
       }
@@ -86,7 +93,7 @@ const SignUpPage = () => {
       console.log(values);
     }
 
-    // form.reset();
+    form.reset();
   }
 
   return (

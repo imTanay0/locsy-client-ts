@@ -3,9 +3,9 @@ import { Buyer, User } from "./types";
 
 export type MessageResponse = {
   success: boolean;
-  message: string;
-  user?: User;
-  role?: Buyer;
+  message?: string;
+  user: User | null;
+  role: Buyer | null;
 };
 
 export type AxiosErrorWithMessage = AxiosError & {

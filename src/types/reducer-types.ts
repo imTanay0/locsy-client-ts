@@ -8,15 +8,24 @@ export interface BuyerReducerInitialState {
   isAuthenticated: boolean;
   isError: boolean;
   isSuccess: boolean;
-  message: string; 
+  message: string;
 }
 
+export type BuyerRegisterData = {
+  fname: string;
+  lname: string;
+  email: string;
+  password: string;
+  address?: string;
+  role: string;
+};
+
 export type BuyerState = {
-  user: User | null;  
+  user: User | null;
   buyer: Buyer | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   isError: boolean;
   isSuccess: boolean;
   message: string;
-}
+};
