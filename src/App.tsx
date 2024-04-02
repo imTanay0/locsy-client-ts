@@ -38,19 +38,25 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="">
-      <BrowserRouter>
-        <ScrollToTop>
-          <Suspense fallback={<MyLoader />}>
-            <Routes>
-              <Route path="/*" element={<BuyerRoutes />} />
+    <div>
+      {loading ? (
+        <MyLoader />
+      ) : (
+        <div className="">
+          <BrowserRouter>
+            <ScrollToTop>
+              <Suspense fallback={<MyLoader />}>
+                <Routes>
+                  <Route path="/*" element={<BuyerRoutes />} />
 
-              {/* SELLER ROUTES */}
-              <Route path="/seller/*" element={<SellerRoutes />} />
-            </Routes>
-          </Suspense>
-        </ScrollToTop>
-      </BrowserRouter>
+                  {/* SELLER ROUTES */}
+                  <Route path="/seller/*" element={<SellerRoutes />} />
+                </Routes>
+              </Suspense>
+            </ScrollToTop>
+          </BrowserRouter>
+        </div>
+      )}
     </div>
   );
 }

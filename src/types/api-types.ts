@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { Buyer, User } from "./types";
 
 export type MessageResponse = {
@@ -6,3 +7,13 @@ export type MessageResponse = {
   user?: User;
   role?: Buyer;
 };
+
+export type AxiosErrorWithData = AxiosError & {
+  response: {
+    data: MessageResponse;
+    status: number;
+    statusText: string;
+    request: XMLHttpRequest;
+  };
+};
+

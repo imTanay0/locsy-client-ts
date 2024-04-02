@@ -34,6 +34,7 @@ import {
   buyerLoginSuccess,
 } from "@/redux/slice/buyerSlice";
 import { server } from "@/redux/store";
+import { AxiosErrorWithData } from "@/types/api-types";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -70,16 +71,17 @@ const SignInPage = () => {
           buyer
         );
 
-        if (data.success) {
-          toast.success(data.message);
-          dispatch(buyerLoginSuccess(data));
-        } else {
-          toast.error(data.message);
-          dispatch(buyerLoginFailure(data.message));
-        }
+        toast.success(data.message);
+        dispatch(buyerLoginSuccess(data.message));
       } catch (error) {
-        toast.error(error.response.data.message);
-        dispatch(buyerLoginFailure(error.response.data.message));
+        if (error instanceof Error) {
+          const errorMessage = (error as AxiosErrorWithData).response?.data
+            .message;
+          toast.error(errorMessage);
+          dispatch(buyerLoginFailure(errorMessage));
+        } else {
+          console.error(error);
+        }
       }
     }
 

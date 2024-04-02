@@ -11,10 +11,7 @@ export const store = configureStore({
     [buyerAPI.reducerPath]: buyerAPI.reducer,
     [buyerSlice.name]: buyerReducer,
   },
-  // middleware: (getDefaultMiddleware) => [
-  //   ...getDefaultMiddleware(),
-  //   buyerAPI.middleware,
-  // ],
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({}),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
