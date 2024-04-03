@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { MessageResponse, RegisterBuyer } from "@/types/api-types";
+import {
+  MessageResponse,
+  RegisterBuyer
+} from "@/types/api-types";
 import { Login } from "@/types/types";
 
 const server = import.meta.env.VITE_SERVER;

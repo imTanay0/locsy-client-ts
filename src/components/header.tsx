@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   LayoutGrid,
   LogOut,
@@ -10,19 +9,20 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import axios from "axios";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { buyerLogout } from "@/redux/slice/buyerSlice";
+import { server } from "@/redux/store";
+import { AxiosErrorWithMessage } from "@/types/api-types";
+import { User } from "@/types/types";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import logo from "../assets/logo.png";
 import SearchBox from "./searchBox";
 import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
-import logo from "../assets/logo.png";
-import { User } from "@/types/types";
-import { useDispatch } from "react-redux";
-import { buyerLogout } from "@/redux/slice/buyerSlice";
-import { server } from "@/redux/store";
-import { toast } from "sonner";
-import { AxiosErrorWithMessage } from "@/types/api-types";
 
 type HeaderProps = {
   user: User | null;

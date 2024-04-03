@@ -25,3 +25,9 @@ export type RegisterBuyer = {
   email: string;
   password: string;
 };
+
+export type BuyerResponse = {
+  success: boolean;
+  user: User;
+  buyer: Buyer;
+};
