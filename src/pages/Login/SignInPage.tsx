@@ -1,13 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Loader2 } from "lucide-react";
 
-import GoogleIcon from "@/assets/GoogleIcon.png";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,14 +24,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/firebase";
 
+import { useBuyerLoginMutation } from "@/redux/api/buyerAPI";
 import {
   buyerLoginFailure,
   buyerLoginStart,
   buyerLoginSuccess,
 } from "@/redux/slice/buyerSlice";
-import { server } from "@/redux/store";
 import { AxiosErrorWithMessage } from "@/types/api-types";
 
 const formSchema = z.object({
@@ -46,6 +43,8 @@ const formSchema = z.object({
 
 const SignInPage = () => {
   const dispatch = useDispatch();
+  const [loginBuyer, { data, error, isError, isLoading, isSuccess }] =
+    useBuyerLoginMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,33 +63,18 @@ const SignInPage = () => {
         password: values.password,
       };
 
-      try {
-        dispatch(buyerLoginStart());
-        const { data } = await axios.post(
-          `${server}/api/v1/buyer/login`,
-          buyer,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      dispatch(buyerLoginStart());
+      loginBuyer(buyer);
 
-        if (data.success) {
-          toast.success(data.message);
-          dispatch(buyerLoginSuccess(data));
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          const errorMessage = (error as AxiosErrorWithMessage).response?.data
-            .message;
-          toast.error(errorMessage);
-          dispatch(buyerLoginFailure(errorMessage));
-        } else {
-          console.error(error);
-          toast.error("Internal Server Error");
-        }
+      if (isSuccess) {
+        toast.success(data.message);
+        dispatch(buyerLoginSuccess(data));
+      }
+
+      if (isError) {
+        const errMsg = (error as AxiosErrorWithMessage).response?.data.message as string;
+        toast.error(errMsg);
+        dispatch(buyerLoginFailure(errMsg));
       }
     }
 
@@ -101,13 +85,13 @@ const SignInPage = () => {
     form.reset();
   }
 
-  const googleLoginHandler = async () => {
-    if (accountType === "buyer") {
-      const provider = new GoogleAuthProvider();
-      const { user } = await signInWithPopup(auth, provider);
-      console.log(user);
-    }
-  };
+  // const googleLoginHandler = async () => {
+  //   if (accountType === "buyer") {
+  //     const provider = new GoogleAuthProvider();
+  //     const { user } = await signInWithPopup(auth, provider);
+  //     console.log(user);
+  //   }
+  // };
 
   return (
     <main className="min-h-[100svh] flex flex-col items-center p-5 md:p-20">
@@ -173,10 +157,20 @@ const SignInPage = () => {
               </FormItem>
             )}
           />
-          <div className="w-full pt-3 flex flex-col gap-2">
+          {isLoading ? (
+            <Button type="submit" className="w-full" disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Loading
+            </Button>
+          ) : (
             <Button type="submit" className="w-full">
               Login
             </Button>
+          )}
+
+          {/* GOOGLE LOGIN */}
+
+          {/* <div className="w-full pt-3 flex flex-col gap-2">
             <p className="mx-auto text-base md:text-lg">Or</p>
             <Button
               className="w-full"
@@ -188,7 +182,7 @@ const SignInPage = () => {
                 Login with google
               </span>
             </Button>
-          </div>
+          </div> */}
         </form>
       </Form>
 

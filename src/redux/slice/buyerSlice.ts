@@ -50,7 +50,7 @@ export const buyerSlice = createSlice({
     },
     buyerLoginSuccess: (
       state,
-      action: PayloadAction<BuyerReducerInitialState>
+      action: PayloadAction<MessageResponse>
     ) => {
       state.user = action.payload.user;
       state.buyer = action.payload.role;
