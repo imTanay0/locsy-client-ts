@@ -43,8 +43,7 @@ const formSchema = z.object({
 
 const SignInPage = () => {
   const dispatch = useDispatch();
-  const [loginBuyer, { data, error, isError, isLoading, isSuccess }] =
-    useBuyerLoginMutation();
+  const [loginBuyer, { isLoading }] = useBuyerLoginMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,25 +55,30 @@ const SignInPage = () => {
 
   const accountType = form.watch("accountType");
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (accountType === "buyer") {
       const buyer = {
         email: values.email,
         password: values.password,
       };
 
-      dispatch(buyerLoginStart());
-      loginBuyer(buyer);
-
-      if (isSuccess) {
-        toast.success(data.message);
-        dispatch(buyerLoginSuccess(data));
-      }
-
-      if (isError) {
-        const errMsg = (error as AxiosErrorWithMessage).response?.data.message as string;
-        toast.error(errMsg);
-        dispatch(buyerLoginFailure(errMsg));
+      try {
+        dispatch(buyerLoginStart());
+        loginBuyer(buyer)
+          .unwrap()
+          .then((data) => {
+            toast.success(data.message);
+            dispatch(buyerLoginSuccess(data));
+          })
+          .catch((error) => {
+            const errorMessage = (error as AxiosErrorWithMessage).response?.data
+              .message as string;
+            toast.error(errorMessage);
+            dispatch(buyerLoginFailure(errorMessage));
+          });
+      } catch (error) {
+        console.error(error);
+        toast.error("Internal Server Error");
       }
     }
 
@@ -83,7 +87,7 @@ const SignInPage = () => {
     }
 
     form.reset();
-  }
+  };
 
   // const googleLoginHandler = async () => {
   //   if (accountType === "buyer") {
