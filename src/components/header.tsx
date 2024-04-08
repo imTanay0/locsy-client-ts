@@ -9,7 +9,6 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -23,18 +22,23 @@ import logo from "../assets/logo.png";
 import SearchBox from "./searchBox";
 import { Button } from "./ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 type HeaderProps = {
   user: User | null;
 };
 
 const Header = ({ user }: HeaderProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const dispatch = useDispatch();
 
   const logoutHandler = async () => {
-    setIsDialogOpen(false);
     try {
       const { data } = await axios.get(`${server}/api/v1/buyer/logout`, {
         withCredentials: true,
@@ -43,8 +47,10 @@ const Header = ({ user }: HeaderProps) => {
         },
       });
 
-      toast.success(data.message);
-      dispatch(buyerLogout());
+      if (data.success) {
+        toast.success(data.message);
+        dispatch(buyerLogout());
+      }
     } catch (error) {
       if (error instanceof Error) {
         const errorMessage = (error as AxiosErrorWithMessage).response?.data
@@ -76,59 +82,60 @@ const Header = ({ user }: HeaderProps) => {
           </Link>
           {user?._id ? (
             <>
-              <button
-                className="bg-slate-300 p-3 rounded-full"
-                onClick={() => setIsDialogOpen((prev) => !prev)}
-              >
-                <UserRound className="w-5 h-5" />
-              </button>
-              <dialog
-                open={isDialogOpen}
-                className="bg-slate-200 py-1 w-28 rounded-sm top-[8%] left-[calc(94%-112px)] z-50"
-              >
-                <div className="flex flex-col align-middle items-center text-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="overflow-hidden rounded-full border border-slate-500"
+                  >
+                    <UserRound className="w-5 h-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
                   <Link
                     to="/account"
-                    className=" w-full py-1 hover:bg-slate-300"
-                    onClick={() => setIsDialogOpen(false)}
-                  >
-                    Profile
-                  </Link>
+                    className="w-full"
 
+                  >
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                  </Link>
                   {user.role === 1 && (
                     <Link
                       to="/admin"
-                      onClick={() => setIsDialogOpen(false)}
-                      className="w-full py-1 hover:bg-slate-300"
+  
+                      className="w-full"
                     >
-                      Dashboard
+                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
                     </Link>
                   )}
                   {user.role === 2 && (
                     <Link
                       to="/seller"
-                      onClick={() => setIsDialogOpen(false)}
-                      className="w-full py-1 hover:bg-slate-300"
+  
+                      className="w-full"
                     >
-                      Dashboard
+                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
                     </Link>
                   )}
-
                   <Link
                     to="/orders"
-                    onClick={() => setIsDialogOpen(false)}
+
                     className="w-full py-1 hover:bg-slate-300"
                   >
-                    Orders
+                    <DropdownMenuItem>Orders</DropdownMenuItem>
                   </Link>
-                  <p
-                    className="text-red-500 w-full py-1 hover:bg-slate-300 cursor-pointer"
-                    onClick={logoutHandler}
-                  >
-                    Sign Out
-                  </p>
-                </div>
-              </dialog>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <p
+                      className="text-red-500 w-full cursor-pointer"
+                      onClick={logoutHandler}
+                    >
+                      Sign Out
+                    </p>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           ) : (
             <Link to="/login">
