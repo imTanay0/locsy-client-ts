@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const { data } = await axios.get(`${server}/api/v1/buyer`, {
+        const { data } = await axios.get(`${server}/api/v1/user`, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
