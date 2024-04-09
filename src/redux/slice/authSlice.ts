@@ -1,31 +1,36 @@
-// import { BuyerReducerInitialState } from "@/types/reducer-types";
-// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// import { User } from "@/types/types";
+import { UserReducerInitialState } from "@/types/reducer-types";
 
-// const initialState: BuyerReducerInitialState = {
-//   user: null,
-//   role: null,
-//   isLoading: true,
-//   isAuthenticated: false,
-// };
+const initialState: UserReducerInitialState = {
+  user: null,
+  role: null,
+  isLoading: true,
+  isAuthenticated: false,
+  isError: false,
+  isSuccess: false,
+  message: "",
+};
 
-// export const authSlice = createSlice({
-//   name: "buyerReducer",
-//   initialState,
-//   reducers: {
-//     userExist: (state, action: PayloadAction<User>) => {
-//       state.user = action.payload;
-//       // state.role = action.payload.role;
-//       state.isLoading = false;
-//       state.isAuthenticated = true;
-//     },
-//     userNotExist: (state) => {
-//       state.user = null;
-//       state.isLoading = false;
-//       state.isAuthenticated = false;
-//     },
-//   },
-// });
+export const authSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    userExist: (state, action: PayloadAction<UserReducerInitialState>) => {
+      state.user = action.payload.user;
+      state.role = action.payload.role;
+      state.isLoading = false;
+      state.isAuthenticated = true;
+    },
+    userNotExist: (state) => {
+      state.user = null;
+      state.role = null;
+      state.isLoading = false;
+      state.isAuthenticated = false;
+    },
+  },
+});
 
-// export const { userExist, userNotExist } = authSlice.actions;
+export const { userExist, userNotExist } = authSlice.actions;
+
+export default authSlice.reducer;

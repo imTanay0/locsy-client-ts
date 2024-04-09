@@ -26,7 +26,7 @@ export type RegisterBuyer = {
   password: string;
 };
 
-export type LoginBuyer = {
+export type Login = {
   email: string;
   password: string;
 }

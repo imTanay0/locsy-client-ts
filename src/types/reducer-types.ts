@@ -1,4 +1,14 @@
-import { Buyer, User } from "./types";
+import { Buyer, Seller, User } from "./types";
+
+export interface UserReducerInitialState {
+  user: User | null;
+  role: Buyer | Seller | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  message: string;
+}
 
 export interface BuyerReducerInitialState {
   user: User | null;

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { LoginBuyer, MessageResponse, RegisterBuyer } from "@/types/api-types";
+import { Login, MessageResponse, RegisterBuyer } from "@/types/api-types";
 
 const server = import.meta.env.VITE_SERVER;
 
@@ -22,7 +22,7 @@ export const buyerAPI = createApi({
         },
       }),
     }),
-    buyerLogin: builder.mutation<MessageResponse, LoginBuyer>({
+    buyerLogin: builder.mutation<MessageResponse, Login>({
       query: (buyer) => ({
         url: "login",
         method: "POST",

@@ -9,6 +9,7 @@ import BuyerRoutes from "@/routes/BuyerRoutes";
 import SellerRoutes from "@/routes/SellerRoutes";
 import { buyerExist, buyerNotExist } from "./redux/slice/buyerSlice";
 import { server } from "./redux/store";
+import { userExist, userNotExist } from "./redux/slice/authSlice";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,10 +26,12 @@ function App() {
         });
 
         if (data.success) {
+          dispatch(userExist(data));
           dispatch(buyerExist(data));
           setLoading(false);
         }
       } catch (error) {
+        dispatch(userNotExist());
         dispatch(buyerNotExist());
         setLoading(false);
       }

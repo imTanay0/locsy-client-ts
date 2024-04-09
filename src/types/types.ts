@@ -23,6 +23,32 @@ export interface Buyer {
   };
 }
 
+export interface Seller {
+  _id: string;
+  userId: string;
+  shopName: string;
+  shopImage: {
+    public_id: string;
+    url: string;
+  };
+  shopDescription: string;
+  subscription?: string;
+  shopAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country?: string;
+  };
+  isApproved: boolean;
+  approvalDetails?: {
+    reason?: string;
+    adminUserId?: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 interface AddressUser {
   address?: string;
   isDefault?: boolean;
