@@ -40,7 +40,7 @@ const Header = ({ user }: HeaderProps) => {
 
   const logoutHandler = async () => {
     try {
-      const { data } = await axios.get(`${server}/api/v1/buyer/logout`, {
+      const { data } = await axios.get(`${server}/api/v1/user/logout`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
