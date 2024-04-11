@@ -1,13 +1,13 @@
 import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import NotFoundPage from "@/components/notFoundPage";
-import { RootState } from "@/redux/store";
-import { BuyerState } from "@/types/reducer-types";
 import ProtectedRoute from "@/components/protectedRoute";
+import { RootState } from "@/redux/store";
+import { UserReducerInitialState } from "@/types/reducer-types";
 
 const HomePage = lazy(() => import("@/pages/Home/homePage"));
 const SignUpPage = lazy(() => import("@/pages/Register/SignUpPage"));
@@ -21,8 +21,8 @@ const CheckoutPage = lazy(() => import("@/pages/Checkout/CheckoutPage"));
 const OrdersPage = lazy(() => import("@/pages/Orders/OrdersPage"));
 
 const BuyerRoutes = () => {
-  const { user, isAuthenticated } = useSelector<RootState, BuyerState>(
-    (state) => state.buyer
+  const { user, isAuthenticated } = useSelector<RootState, UserReducerInitialState>(
+    (state) => state.user
   );
 
   return (

@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -26,12 +27,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import { useBuyerLoginMutation } from "@/redux/api/buyerAPI";
-import {
-  buyerLoginFailure,
-  buyerLoginStart,
-  buyerLoginSuccess,
-} from "@/redux/slice/buyerSlice";
-import { AxiosErrorWithMessage } from "@/types/api-types";
+import { useSellerLoginMutation } from "@/redux/api/sellerAPI";
+import { loginFailure, loginSuccess } from "@/redux/slice/authSlice";
+import { ErrorWithMessage } from "@/types/api-types";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -43,7 +41,10 @@ const formSchema = z.object({
 
 const SignInPage = () => {
   const dispatch = useDispatch();
-  const [loginBuyer, { isLoading }] = useBuyerLoginMutation();
+  const [loginBuyer] = useBuyerLoginMutation();
+  const [loginSeller] = useSellerLoginMutation();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,27 +64,44 @@ const SignInPage = () => {
       };
 
       try {
-        dispatch(buyerLoginStart());
-        loginBuyer(buyer)
-          .unwrap()
-          .then((data) => {
-            toast.success(data.message);
-            dispatch(buyerLoginSuccess(data));
-          })
-          .catch((error) => {
-            const errorMessage = (error as AxiosErrorWithMessage).response?.data
-              .message as string;
-            toast.error(errorMessage);
-            dispatch(buyerLoginFailure(errorMessage));
-          });
+        setIsLoading(true);
+        const data = await loginBuyer(buyer).unwrap();
+
+        toast.success(data.message);
+        dispatch(loginSuccess(data));
+
+        setIsLoading(false);
       } catch (error) {
-        console.error(error);
-        toast.error("Internal Server Error");
+        // console.log("Error: ", error);
+        const errorMessage = (error as ErrorWithMessage).data.message as string;
+
+        toast.error(errorMessage);
+        dispatch(loginFailure(errorMessage));
+        setIsLoading(false);
       }
     }
 
     if (accountType === "seller") {
-      console.log(values);
+      setIsLoading(true);
+      try {
+        const data = await loginSeller({
+          email: values.email,
+          password: values.password,
+        }).unwrap();
+
+        console.log(data);
+        toast.success(data.message);
+        dispatch(loginSuccess(data));
+
+        setIsLoading(false);
+      } catch (error) {
+        console.log("Error: ", error);
+        const errorMessage = (error as ErrorWithMessage).data.message as string;
+
+        toast.error(errorMessage);
+        dispatch(loginFailure(errorMessage));
+        setIsLoading(false);
+      }
     }
 
     form.reset();

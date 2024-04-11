@@ -12,7 +12,6 @@ import {
 import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { buyerLogout } from "@/redux/slice/buyerSlice";
 import { server } from "@/redux/store";
 import { AxiosErrorWithMessage } from "@/types/api-types";
 import { User } from "@/types/types";
@@ -29,6 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { userNotExist } from "@/redux/slice/authSlice";
 
 type HeaderProps = {
   user: User | null;
@@ -49,7 +49,7 @@ const Header = ({ user }: HeaderProps) => {
 
       if (data.success) {
         toast.success(data.message);
-        dispatch(buyerLogout());
+        dispatch(userNotExist());
       }
     } catch (error) {
       if (error instanceof Error) {

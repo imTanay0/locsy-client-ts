@@ -8,6 +8,13 @@ export type MessageResponse = {
   role: Buyer | null;
 };
 
+export type ErrorWithMessage = {
+  data: {
+    success: boolean;
+    message: string;
+  };
+};
+
 export type AxiosErrorWithMessage = AxiosError & {
   response: {
     data: {
@@ -29,7 +36,7 @@ export type RegisterBuyer = {
 export type Login = {
   email: string;
   password: string;
-}
+};
 
 export type BuyerResponse = {
   success: boolean;
