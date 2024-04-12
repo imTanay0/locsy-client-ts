@@ -68,6 +68,8 @@ export interface Product {
 }
 
 export interface Image {
-  public_id: string;
-  url: string;
+  image: {
+    public_id: string;
+    url: string;
+  };
 }

@@ -11,7 +11,7 @@ export const productAPI = createApi({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => ({
-        url: "getall",
+        url: "get",
         method: "GET",
       }),
       providesTags: ["Product"],

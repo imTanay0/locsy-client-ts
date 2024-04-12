@@ -1,6 +1,6 @@
 import { ProductInititalState } from "@/types/reducer-types";
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: ProductInititalState = {
   products: [],
@@ -19,10 +19,10 @@ export const productsSlice = createSlice({
     },
     getProductsSuccess: (
       state,
-      action: PayloadAction<ProductInititalState>
+      action
     ) => {
       state.isLoading = false;
-      state.products = action.payload.products;
+      state.products = action.payload;
       state.isError = false;
     },
     getProductsFailure: (state) => {

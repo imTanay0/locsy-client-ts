@@ -65,6 +65,8 @@ const UploadProducts = () => {
       toast.error(errorMessage);
       setIsLoading(false);
     }
+
+    form.reset();
   }
 
   return (

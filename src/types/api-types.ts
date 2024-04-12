@@ -58,3 +58,28 @@ export type BuyerResponse = {
   user: User;
   buyer: Buyer;
 };
+
+interface Product {
+  _id: string;
+  mainImage: {
+    image: {
+      public_id: string;
+      url: string;
+    };
+  };
+  productName: string;
+  productDescription: string;
+  price: number;
+  discount: number;
+  sellerId: string;
+  categories?: string[]; // Assuming empty array of strings for categories
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface ProductResponse {
+  success: boolean;
+  products: Product[];
+}
