@@ -1,6 +1,9 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +18,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { uploadProductFormSchema } from "@/lib/formSchema";
+import { useCreateProductMutation } from "@/redux/api/productAPI";
+import { ErrorWithMessage } from "@/types/api-types";
 
 const UploadProducts = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [createProduct] = useCreateProductMutation();
+
   const form = useForm<z.infer<typeof uploadProductFormSchema>>({
     resolver: zodResolver(uploadProductFormSchema),
     defaultValues: {
@@ -33,7 +42,29 @@ const UploadProducts = () => {
   async function handleUploadProducts(
     values: z.infer<typeof uploadProductFormSchema>
   ) {
-    console.log(values);
+    const formData = new FormData();
+
+    formData.append("productName", values.productName);
+    formData.append("productDescription", values.productDescription);
+    formData.append("price", values.price.toString());
+    formData.append("stock", values.stock.toString());
+    if (values.file && values.file[0]) {
+      formData.append("file", values.file[0]);
+    }
+
+    try {
+      setIsLoading(true);
+      const data = await createProduct(formData).unwrap();
+
+      toast.success(data.message);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error: ", error);
+      const errorMessage = (error as ErrorWithMessage).data.message as string;
+
+      toast.error(errorMessage);
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -135,9 +166,16 @@ const UploadProducts = () => {
               />
 
               <div className="w-full flex justify-center p-5">
-                <Button type="submit" className="w-[70%]">
-                  Upload
-                </Button>
+                {isLoading ? (
+                  <Button type="submit" className="w-[70%]" disabled>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Loading
+                  </Button>
+                ) : (
+                  <Button type="submit" className="w-[70%]">
+                    Upload
+                  </Button>
+                )}
               </div>
             </form>
           </Form>

@@ -56,9 +56,18 @@ interface AddressUser {
 
 export interface Product {
   _id: string;
+  productId: string;
   productName: string;
-  productImg: string;
+  productDescription: string;
   price: number;
+  discount: number;
+  mainImage: Image;
+  sellerId: string;
+  rating?: number;
   stock: number;
-  seller: string;
+}
+
+export interface Image {
+  public_id: string;
+  url: string;
 }

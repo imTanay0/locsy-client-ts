@@ -1,4 +1,4 @@
-import { Buyer, Seller, User } from "./types";
+import { Buyer, Product, Seller, User } from "./types";
 
 export interface UserReducerInitialState {
   user: User | null;
@@ -19,6 +19,13 @@ export interface BuyerReducerInitialState {
   isError: boolean;
   isSuccess: boolean;
   message: string;
+}
+
+export interface ProductInititalState {
+  products: Product[];
+  product: Product | null;
+  isLoading: boolean;
+  isError: boolean;
 }
 
 export type BuyerRegisterData = {

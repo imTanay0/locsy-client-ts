@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { ListFilter } from "lucide-react";
+import { useState } from "react";
 
 import ProductCard from "@/components/productCard";
 import { Input } from "@/components/ui/input";
@@ -20,11 +20,18 @@ import {
 } from "@/components/ui/select";
 
 import { productsDemoData } from "@/data/productDemoData";
+import { useGetAllProductsQuery } from "@/redux/api/productAPI";
 
 const ProductsPage = () => {
   const [sort, setSort] = useState("");
   const [maxPrice, setMaxPrice] = useState(100000);
   const [page, setPage] = useState(1);
+  const { data, error, status } = useGetAllProductsQuery({});
+
+  console.log(status);
+  console.log(error);
+
+  console.log(data);
 
   // const isPrevPage = true;
   // const isNextPage = true;

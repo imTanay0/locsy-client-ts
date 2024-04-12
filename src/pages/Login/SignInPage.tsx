@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 
+import LoadingButton from "@/components/loadingButton";
 import { useBuyerLoginMutation } from "@/redux/api/buyerAPI";
 import { useSellerLoginMutation } from "@/redux/api/sellerAPI";
 import { loginFailure, loginSuccess } from "@/redux/slice/authSlice";
@@ -180,10 +180,7 @@ const SignInPage = () => {
             )}
           />
           {isLoading ? (
-            <Button type="submit" className="w-full" disabled>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Loading
-            </Button>
+            <LoadingButton />
           ) : (
             <Button type="submit" className="w-full">
               Login
