@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { MessageResponse, Login } from "@/types/api-types";
+import { Login, MessageResponse } from "@/types/api-types";
 
 const server = import.meta.env.VITE_SERVER;
 
@@ -11,6 +11,19 @@ export const sellerAPI = createApi({
   }),
   tagTypes: ["Seller"],
   endpoints: (builder) => ({
+    registerSeller: builder.mutation({
+      query: (seller) => {
+        return {
+          url: "register",
+          method: "POST",
+          body: seller,
+          // headers: {
+          //   "Content-Type": "multipart/form-data",
+          // },
+          credentials: "include",
+        };
+      },
+    }),
     sellerLogin: builder.mutation<MessageResponse, Login>({
       query: (seller) => ({
         url: "login",
@@ -25,4 +38,4 @@ export const sellerAPI = createApi({
   }),
 });
 
-export const { useSellerLoginMutation } = sellerAPI;
+export const { useRegisterSellerMutation, useSellerLoginMutation } = sellerAPI;

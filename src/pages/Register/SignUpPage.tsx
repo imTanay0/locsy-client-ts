@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
-import { useDispatch } from "react-redux";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,17 +28,20 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { registerFormSchema } from "@/lib/formSchema";
 import { useBuyerCreateMutation } from "@/redux/api/buyerAPI";
-import { MessageResponse } from "@/types/api-types";
+import { useRegisterSellerMutation } from "@/redux/api/sellerAPI";
+import { registerFailure, registerSuccess } from "@/redux/slice/authSlice";
 import {
+  buyerRegisterFailure,
   buyerRegisterStart,
   buyerRegisterSuccess,
-  buyerRegisterFailure,
 } from "@/redux/slice/buyerSlice";
+import { ErrorWithMessage, MessageResponse } from "@/types/api-types";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
 
   const [buyerCreate] = useBuyerCreateMutation();
+  const [registerSeller] = useRegisterSellerMutation();
 
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -89,11 +92,78 @@ const SignUpPage = () => {
       }
     }
 
-    if (accountType === "seller") {
-      console.log(values);
+    if (
+      (accountType === "seller" && values.file && values.shopName,
+      values.shopDescription,
+      values.contactNo,
+      values.street,
+      values.city,
+      values.state,
+      values.zipCode)
+    ) {
+      const seller = {
+        fname: values.fname,
+        lname: values.lname,
+        email: values.email,
+        password: values.password,
+        shopName: values.shopName,
+        shopDescription: values.shopDescription,
+        file: values.file,
+        contactNo: values.contactNo,
+        street: values.street,
+        city: values.city,
+        state: values.state,
+        zipCode: values.zipCode,
+      };
+
+      // console.log(newSeller);
+
+      const formData = new FormData();
+
+      formData.append("fname", seller.fname);
+      formData.append("lname", seller.lname);
+      formData.append("email", seller.email);
+      formData.append("password", seller.password);
+      if (seller.shopName) {
+        formData.append("shopName", seller.shopName);
+      }
+      if (seller.shopDescription) {
+        formData.append("shopDescription", seller.shopDescription);
+      }
+      if (seller.contactNo) {
+        formData.append("contactNo", seller.contactNo);
+      }
+      if (seller.street) {
+        formData.append("street", seller.street);
+      }
+      if (seller.city) {
+        formData.append("city", seller.city);
+      }
+      if (seller.state) {
+        formData.append("state", seller.state);
+      }
+      if (seller.zipCode) {
+        formData.append("zipCode", seller.zipCode);
+      }
+      if (seller.file && seller.file.length > 0) {
+        formData.append("file", seller.file[0]);
+      }
+
+      try {
+        const data = await registerSeller(formData).unwrap();
+        // console.log(data);
+        toast.success(data.message);
+        dispatch(registerSuccess(data));
+      } catch (error) {
+        console.log("Error: ", error);
+        const errorMessage = (error as ErrorWithMessage).data.message as string;
+
+        toast.error(errorMessage);
+        dispatch(registerFailure());
+      }
     }
 
-    form.reset();
+    // form.reset();
   }
 
   return (

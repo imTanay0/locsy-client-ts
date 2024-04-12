@@ -33,6 +33,21 @@ export type RegisterBuyer = {
   password: string;
 };
 
+export type RegisterSeller = {
+  fname: string;
+  lname: string;
+  email: string;
+  password: string;
+  shopName?: string;
+  shopDescription?: string;
+  contactNo?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  file?: Blob[];
+};
+
 export type Login = {
   email: string;
   password: string;

@@ -32,6 +32,22 @@ export const authSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
     },
+    registerSuccess: (state, action: PayloadAction<MessageResponse>) => {
+      state.user = action.payload.user;
+      state.role = action.payload.role;
+      state.isLoading = false;
+      state.isAuthenticated = true;
+      state.isSuccess = true;
+      state.isError = false;
+    },
+    registerFailure: (state) => {
+      state.user = null;
+      state.role = null;
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.isError = true;
+      state.isSuccess = false;
+    },
     userExist: (state, action: PayloadAction<UserReducerInitialState>) => {
       state.user = action.payload.user;
       state.role = action.payload.role;
@@ -47,7 +63,13 @@ export const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, loginFailure, userExist, userNotExist } =
-  authSlice.actions;
+export const {
+  loginSuccess,
+  loginFailure,
+  registerSuccess,
+  registerFailure,
+  userExist,
+  userNotExist,
+} = authSlice.actions;
 
 export default authSlice.reducer;
