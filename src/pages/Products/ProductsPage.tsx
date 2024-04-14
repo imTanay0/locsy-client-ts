@@ -21,11 +21,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface ProductResponse {
+  productId: string;
+  productName: string;
+  productDescription: string;
+  productImage: string;
+  price: number;
+  sellerName: string;
+  productCategories: string[];
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const ProductsPage = () => {
   const [sort, setSort] = useState("");
   const [maxPrice, setMaxPrice] = useState(100000);
   const [page, setPage] = useState(1);
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState<ProductResponse[]>();
 
   // const { data, error } = useGetAllProductsQuery({});
 
