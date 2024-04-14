@@ -8,6 +8,7 @@ import Navbar from "@/components/seller/navbar";
 import SellerOrderHistoy from "@/pages/Seller/Orders/SellerOrderHistoy";
 import UploadProducts from "@/pages/Seller/Upload Products/UploadProducts";
 import SellerProducrs from "@/pages/Seller/Products/SellerProducts";
+import UpdateProduct from "@/pages/Seller/Products/UpdateProduct";
 import ProtectedRoute from "@/components/protectedRoute";
 
 import { BuyerState } from "@/types/reducer-types";
@@ -38,6 +39,7 @@ const SellerRoutes = () => {
             <Route path="/" element={<SellerOrderHistoy />} />
             <Route path="/orders" element={<SellerOrderHistoy />} />
             <Route path="/products" element={<SellerProducrs />} />
+            <Route path="/product/:productId" element={<UpdateProduct />} />
             <Route path="/upload" element={<UploadProducts />} />
           </Route>
 

@@ -59,7 +59,7 @@ export type BuyerResponse = {
   buyer: Buyer;
 };
 
-interface Product {
+export interface Product {
   _id: string;
   mainImage: {
     image: {

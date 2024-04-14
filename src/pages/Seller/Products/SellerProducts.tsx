@@ -24,6 +24,7 @@ import { ProductResponse } from "@/types/api-types";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const SellerProducts = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const SellerProducts = () => {
           }
         );
 
-        console.log(res);
+        // console.log(res);
         const products = res.data.products as ProductResponse[];
         dispatch(getProductsSuccess(products));
       } catch (error) {
@@ -104,11 +105,16 @@ const SellerProducts = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {/* <DropdownMenuItem className="cursor-pointer">
-                          Update
-                        </DropdownMenuItem> */}
                           <DropdownMenuItem className="cursor-pointer">
-                            Delete
+                            <Link to={`/seller/product/${product._id}`} className="w-full">
+                              Update
+                            </Link>
+                          </DropdownMenuItem>
+
+                          <DropdownMenuItem className="cursor-pointer">
+                            <span className="hover:text-red-500 w-full">
+                              Delete
+                            </span>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
