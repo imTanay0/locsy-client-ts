@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 import { ListFilter } from "lucide-react";
-import { useState } from "react";
 
 import ProductCard from "@/components/productCard";
 import { Input } from "@/components/ui/input";
@@ -19,19 +21,36 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { productsDemoData } from "@/data/productDemoData";
-import { useGetAllProductsQuery } from "@/redux/api/productAPI";
-
 const ProductsPage = () => {
   const [sort, setSort] = useState("");
   const [maxPrice, setMaxPrice] = useState(100000);
   const [page, setPage] = useState(1);
-  const { data, error, status } = useGetAllProductsQuery({});
+  const [products, setProducts] = useState();
 
-  console.log(status);
-  console.log(error);
+  // const { data, error } = useGetAllProductsQuery({});
 
-  console.log(data);
+  useEffect(() => {
+    const getAllProducts = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:8000/api/v1/product/getall",
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setProducts(data.filteredUpdatedProducts);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch products");
+      }
+    };
+
+    getAllProducts();
+  }, []);
 
   // const isPrevPage = true;
   // const isNextPage = true;
@@ -82,18 +101,22 @@ const ProductsPage = () => {
       </aside>
 
       <main className="w-full md:w-[78%]">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {productsDemoData.map((product) => (
-            <ProductCard
-              key={product._id}
-              productId={product._id}
-              productName={product.productName}
-              productImg={product.productImg}
-              price={product.price}
-              seller={product.seller}
-            />
-          ))}
-        </div>
+        {products && products.length > 0 ? (
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[90%]">
+            {products.map((product) => (
+              <ProductCard
+                key={product.productId}
+                productId={product.productId}
+                productName={product.productName}
+                productImg={product.productImage}
+                price={product.price}
+                seller={product.sellerName}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No products found</p>
+        )}
 
         <Pagination className="mt-4">
           <PaginationContent>

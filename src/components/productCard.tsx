@@ -51,12 +51,12 @@ const ProductCard = ({
             <img
               src={productImg}
               alt="product_image"
-              className="aspect-square object-contain hover:scale-110 duration-500 transition-transform"
+              className="aspect-square object-contain hover:scale-110 duration-500 transition-transform mx-auto"
             />
           </Link>
         </CardHeader>
         <CardContent>
-          <CardTitle>{productName}</CardTitle>
+          <CardTitle className="text-lg">{productName}</CardTitle>
           <p className="mt-2">&#8377; {price}</p>
           <p>{seller}</p>
         </CardContent>

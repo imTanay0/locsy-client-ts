@@ -111,11 +111,11 @@ const SellerProducts = () => {
                             </Link>
                           </DropdownMenuItem>
 
-                          <DropdownMenuItem className="cursor-pointer">
+                          {/* <DropdownMenuItem className="cursor-pointer">
                             <span className="hover:text-red-500 w-full">
                               Delete
                             </span>
-                          </DropdownMenuItem>
+                          </DropdownMenuItem> */}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
