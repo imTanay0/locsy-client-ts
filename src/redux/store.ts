@@ -7,6 +7,7 @@ import { sellerAPI } from "./api/sellerAPI";
 import authReducer, { authSlice } from "./slice/authSlice";
 import productReducer, { productsSlice } from "./slice/productsSlice";
 import { productAPI } from "./api/productAPI";
+import cartReducer, { cartSlice } from "./slice/cartSlice";
 
 export const server = import.meta.env.VITE_SERVER;
 
@@ -18,6 +19,7 @@ export const store = configureStore({
     [authSlice.name]: authReducer,
     [buyerSlice.name]: buyerReducer,
     [productsSlice.name]: productReducer,
+    [cartSlice.name]: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

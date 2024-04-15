@@ -1,4 +1,4 @@
-import { Buyer, Product, Seller, User } from "./types";
+import { Buyer, Cart, Product, Seller, User } from "./types";
 
 export interface UserReducerInitialState {
   user: User | null;
@@ -45,4 +45,10 @@ export type BuyerState = {
   isError: boolean;
   isSuccess: boolean;
   message: string;
+};
+
+export type CartInitialState = {
+  cart: Cart;
+  isLoading: boolean;
+  isError: boolean;
 };

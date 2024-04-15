@@ -10,6 +10,8 @@ import SellerRoutes from "@/routes/SellerRoutes";
 import { buyerExist, buyerNotExist } from "./redux/slice/buyerSlice";
 import { server } from "./redux/store";
 import { userExist, userNotExist } from "./redux/slice/authSlice";
+import { cartExist, cartNotExist } from "./redux/slice/cartSlice";
+import { AxiosErrorWithMessage } from "./types/api-types";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,6 +20,7 @@ function App() {
   useEffect(() => {
     const getUserData = async () => {
       try {
+        setLoading(true);
         const { data } = await axios.get(`${server}/api/v1/user`, {
           withCredentials: true,
           headers: {
@@ -37,7 +40,31 @@ function App() {
       }
     };
 
+    const getCartForCurrentUser = async () => {
+      try {
+        setLoading(true);
+
+        const { data } = await axios.get(`${server}/api/v1/cart/get`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (data.success) {
+          dispatch(cartExist(data));
+        }
+      } catch (error) {
+        const errMsg = (error as AxiosErrorWithMessage).response.data.message;
+        console.log(errMsg);
+        dispatch(cartNotExist());
+      } finally {
+        setLoading(false);
+      }
+    };
+
     getUserData();
+    getCartForCurrentUser();
   }, [dispatch]);
 
   return (

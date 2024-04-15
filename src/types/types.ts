@@ -73,3 +73,19 @@ export interface Image {
     url: string;
   };
 }
+
+export interface Cart {
+  buyerId: string;
+  products: CartProduct[];
+  totalPrice: number;
+  totalItems: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CartProduct {
+  product: {
+    productId: string;
+    quantity: number;
+  }
+}
