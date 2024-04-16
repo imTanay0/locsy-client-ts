@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { server } from "@/redux/store";
 
 interface ProductResponse {
   productId: string;
@@ -45,15 +46,12 @@ const ProductsPage = () => {
   useEffect(() => {
     const getAllProducts = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:8000/api/v1/product/getall",
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const { data } = await axios.get(`${server}/api/v1/product/getall`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         setProducts(data.filteredUpdatedProducts);
       } catch (error) {
