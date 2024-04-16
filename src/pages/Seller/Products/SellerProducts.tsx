@@ -1,3 +1,8 @@
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,12 +24,8 @@ import {
   getProductsStart,
   getProductsSuccess,
 } from "@/redux/slice/productsSlice";
-import { RootState } from "@/redux/store";
+import { RootState, server } from "@/redux/store";
 import { ProductResponse } from "@/types/api-types";
-import axios from "axios";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 const SellerProducts = () => {
   const dispatch = useDispatch();
@@ -34,15 +35,12 @@ const SellerProducts = () => {
     const getAllProducts = async () => {
       try {
         dispatch(getProductsStart());
-        const res = await axios.get(
-          "http://localhost:8000/api/v1/product/get",
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const res = await axios.get(`${server}/api/v1/product/get`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         // console.log(res);
         const products = res.data.products as ProductResponse[];
@@ -106,7 +104,10 @@ const SellerProducts = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem className="cursor-pointer">
-                            <Link to={`/seller/product/${product._id}`} className="w-full">
+                            <Link
+                              to={`/seller/product/${product._id}`}
+                              className="w-full"
+                            >
                               Update
                             </Link>
                           </DropdownMenuItem>
