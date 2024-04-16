@@ -1,16 +1,95 @@
+import axios from "axios";
 import { Trash2 } from "lucide-react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
-import { Button } from "./ui/button";
+import { server } from "@/redux/store";
+import { AxiosErrorWithMessage } from "@/types/api-types";
 import { CartProduct } from "@/types/types";
+import { Button } from "./ui/button";
+import { updateCartitems } from "@/redux/slice/cartSlice";
 
 type CartItemProps = {
   cartItem: CartProduct;
 };
 
 const CartItem = ({ cartItem }: CartItemProps) => {
+  const dispatch = useDispatch();
   const { productId, productName, ProductImage, price, quantity, stock } =
     cartItem;
+
+  const increaseCartItemQuantity = async (productId: string) => {
+    try {
+      const { data } = await axios.put(
+        `${server}/api/v1/cart/increaseItem`,
+        {
+          productId,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (data.success) {
+        dispatch(updateCartitems(data));
+      }
+    } catch (error) {
+      const errMsg = (error as AxiosErrorWithMessage).response.data.message;
+      console.error("Error: ", errMsg);
+      toast.error("Server error, please try again.");
+    }
+  };
+
+  const decreaseCartItemQuantity = async (productId: string) => {
+    try {
+      const { data } = await axios.put(
+        `${server}/api/v1/cart/decreaseItem`,
+        {
+          productId,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (data.success) {
+        dispatch(updateCartitems(data));
+      }
+    } catch (error) {
+      const errMsg = (error as AxiosErrorWithMessage).response.data.message;
+      console.error("Error: ", errMsg);
+      toast.error("Server error, please try again.");
+    }
+  };
+
+  const deleteCartItemHandler = async (productId: string) => {
+    try {
+      const { data } = await axios.delete(`${server}/api/v1/cart/delete-item`, {
+        data: {
+          productId,
+        },
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (data.success) {
+        dispatch(updateCartitems(data));
+      }
+    } catch (error) {
+      const errMsg = (error as AxiosErrorWithMessage).response.data.message;
+      console.error("Error: ", errMsg);
+      toast.error("Server error, please try again.");
+    }
+  };
 
   return (
     <div className="flex flex-col md:flex-row gap-5 p-4 rounded-lg bg-gray-50">
@@ -32,15 +111,29 @@ const CartItem = ({ cartItem }: CartItemProps) => {
         {quantity === 1 ? (
           <Button disabled>-</Button>
         ) : (
-          <Button variant={"outline"}>-</Button>
+          <Button
+            variant={"outline"}
+            onClick={() => decreaseCartItemQuantity(productId)}
+          >
+            -
+          </Button>
         )}
         <p className="font-semibold">{quantity}</p>
         {quantity === stock ? (
           <Button disabled>+</Button>
         ) : (
-          <Button variant={"outline"}>+</Button>
+          <Button
+            variant={"outline"}
+            onClick={() => increaseCartItemQuantity(productId)}
+          >
+            +
+          </Button>
         )}
-        <Button variant={"outline"} className="hover:text-red-500">
+        <Button
+          variant={"outline"}
+          className="hover:text-red-500"
+          onClick={() => deleteCartItemHandler(productId)}
+        >
           <Trash2 width={20} />
         </Button>
       </div>
