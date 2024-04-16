@@ -1,31 +1,28 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
 import CartItem from "@/components/cartItem";
-import { cartItemDemoData } from "@/data/cartItemDemoData";
-
-const cartItems = cartItemDemoData;
-const subTotal = 4000;
-const discount = 500;
-const shippingCharges = 40;
-const total = subTotal + shippingCharges - discount;
-
-// type CartPageProps = {
-//   productId: string;
-//   productName: string;
-//   productImg: string;
-//   price: number;
-// };
+import { Button } from "@/components/ui/button";
+import { RootState } from "@/redux/store";
+import { CartProduct } from "@/types/types";
 
 const CartPage = () => {
-  // const [productCounter]
+  const { cart } = useSelector((state: RootState) => state.cart);
+  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
+
+  useEffect(() => {
+    if (cart && cart.products) {
+      setCartProducts(cart.products);
+    }
+  }, [cart]);
 
   return (
     <div className="min-h-[100svh] flex flex-col md:flex-row gap-8 justify-between container px-4 md:px-6 py-12">
       <main className="md:w-[70%] md:flex-1 h-fit">
         <div className="flex flex-col gap-8">
-          {cartItems.map((cartItem) => (
-            <CartItem key={cartItem._id} cartItem={cartItem} />
+          {cartProducts.map((cartItem) => (
+            <CartItem key={cartItem.productId} cartItem={cartItem} />
           ))}
         </div>
       </main>
@@ -34,23 +31,23 @@ const CartPage = () => {
         <div className="mt-4 flex flex-col gap-2">
           <div className="flex justify-between">
             <p>Total Items</p>
-            <p>{cartItems.length}</p>
+            <p>{cart?.totalItems}</p>
           </div>
           <div className="flex justify-between">
             <p>Price</p>
-            <p>&#8377;{subTotal}</p>
+            <p>&#8377;{cart?.totalPrice}</p>
           </div>
-          <div className="flex justify-between text-green-600">
+          {/* <div className="flex justify-between text-green-600">
             <p>Discount</p>
             <p>- &#8377;{discount}</p>
-          </div>
-          <div className="flex justify-between">
+          </div> */}
+          {/* <div className="flex justify-between">
             <p>Shipping Charges</p>
             <p>&#8377;{shippingCharges}</p>
-          </div>
+          </div> */}
           <div className="mt-2 flex justify-between text-lg font-bold text-green-600">
             <p>Total Amount</p>
-            <p>&#8377;{total}</p>
+            <p>&#8377;{cart?.totalPrice}</p>
           </div>
           <Link to="/checkout?step=2">
             <Button className="mt-2 w-full">Check Out</Button>

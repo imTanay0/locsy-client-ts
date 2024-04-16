@@ -48,7 +48,6 @@ export type BuyerState = {
 };
 
 export type CartInitialState = {
-  cart: Cart;
+  cart: Cart | null;
   isLoading: boolean;
-  isError: boolean;
 };

@@ -2,30 +2,21 @@ import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "./ui/button";
-
-type cartItemType = {
-  _id: string;
-  productName: string;
-  productImg: string;
-  price: number;
-  quantity: number;
-  stock: number;
-  seller: string;
-};
+import { CartProduct } from "@/types/types";
 
 type CartItemProps = {
-  cartItem: cartItemType;
+  cartItem: CartProduct;
 };
 
 const CartItem = ({ cartItem }: CartItemProps) => {
-  const { _id, productName, productImg, price, quantity, stock, seller } =
+  const { productId, productName, ProductImage, price, quantity, stock } =
     cartItem;
 
   return (
     <div className="flex flex-col md:flex-row gap-5 p-4 rounded-lg bg-gray-50">
-      <Link to={`/product/${_id}`} className="mx-auto">
+      <Link to={`/product/${productId}`} className="mx-auto">
         <img
-          src={productImg}
+          src={ProductImage.url}
           alt={productName}
           className="w-40 h-auto rounded-md"
         />
@@ -34,7 +25,6 @@ const CartItem = ({ cartItem }: CartItemProps) => {
       <div className="flex flex-col gap-1 flex-1">
         <p className="font-bold">{productName}</p>
         <p className="text-gray-600">Stock: {stock}</p>
-        <p className="text-gray-600">Seller: {seller}</p>
         <p className="font-bold mt-2">&#8377;{price}</p>
       </div>
 

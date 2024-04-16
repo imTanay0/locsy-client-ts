@@ -84,8 +84,17 @@ export interface Cart {
 }
 
 export interface CartProduct {
-  product: {
-    productId: string;
-    quantity: number;
-  }
+  productId: string;
+  productName: string;
+  productDescription: string;
+  price: number;
+  quantity: number;
+  ProductImage: {
+    public_id: string;
+    url: string;
+  };
+  sellerName: string;
+  stock: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
