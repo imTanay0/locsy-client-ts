@@ -88,13 +88,13 @@ export interface CartProduct {
   productName: string;
   productDescription: string;
   price: number;
+  stock: number;
   quantity: number;
   ProductImage: {
     public_id: string;
     url: string;
   };
   sellerName: string;
-  stock: number;
   createdAt: Date;
   updatedAt: Date;
 }

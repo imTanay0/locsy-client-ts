@@ -2,21 +2,51 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import {
+  useCreateCheckoutSession
+} from "@/api/OrderApi";
 import AddressCard from "@/components/addressCard";
 import CartItem from "@/components/cartItem";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/redux/store";
 import { CartProduct } from "@/types/types";
 
+const address = {
+  street: "Shankar Mission Road, Nagaon, Assam",
+  city: "Nagaon",
+  state: "Assam",
+  zipCode: "782003",
+};
+
 const OrderSummary = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
+
+  const { createCheckoutSessionRequest } = useCreateCheckoutSession();
 
   useEffect(() => {
     if (cart && cart.products) {
       setCartProducts(cart.products);
     }
   }, [cart]);
+
+  const handleCreateCheckoutSession = async () => {
+    if (!cart) {
+      return;
+    }
+
+    const orderedProducts = cartProducts;
+    const totalPrice = cart.totalPrice;
+
+    const data = await createCheckoutSessionRequest(
+      orderedProducts,
+      totalPrice,
+      address
+    );
+
+    console.log(data);
+    window.location.href = data.session;
+  };
 
   return (
     <div>
@@ -56,9 +86,11 @@ const OrderSummary = () => {
               <Link to="/checkout?step=2">
                 <Button>Back</Button>
               </Link>
-              <Link to="/checkout?step=4">
-                <Button className="">Pay Now</Button>
-              </Link>
+              {/* <Link to="/checkout?step=4"> */}
+              <Button className="" onClick={handleCreateCheckoutSession}>
+                Pay Now
+              </Button>
+              {/* </Link> */}
             </div>
           </div>
         </aside>
