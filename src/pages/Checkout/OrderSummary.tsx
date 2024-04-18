@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import {
-  useCreateCheckoutSession
-} from "@/api/OrderApi";
+import { useCreateCheckoutSession } from "@/api/OrderApi";
 import AddressCard from "@/components/addressCard";
 import CartItem from "@/components/cartItem";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/redux/store";
 import { CartProduct } from "@/types/types";
+import { Loader2 } from "lucide-react";
 
 const address = {
   street: "Shankar Mission Road, Nagaon, Assam",
@@ -22,7 +21,8 @@ const OrderSummary = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
-  const { createCheckoutSessionRequest } = useCreateCheckoutSession();
+  const { isLoading, createCheckoutSessionRequest } =
+    useCreateCheckoutSession();
 
   useEffect(() => {
     if (cart && cart.products) {
@@ -87,9 +87,16 @@ const OrderSummary = () => {
                 <Button>Back</Button>
               </Link>
               {/* <Link to="/checkout?step=4"> */}
-              <Button className="" onClick={handleCreateCheckoutSession}>
-                Pay Now
-              </Button>
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Pay Now
+                </Button>
+              ) : (
+                <Button className="" onClick={handleCreateCheckoutSession}>
+                  Pay Now
+                </Button>
+              )}
               {/* </Link> */}
             </div>
           </div>

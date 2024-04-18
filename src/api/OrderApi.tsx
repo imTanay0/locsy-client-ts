@@ -1,8 +1,8 @@
+import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 
 import { server } from "@/redux/store";
-import { AxiosErrorWithMessage } from "@/types/api-types";
 import { CartProduct } from "@/types/types";
 
 export type CheckoutSessionRequest = {
@@ -24,12 +24,15 @@ export type Address = {
 };
 
 export const useCreateCheckoutSession = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const createCheckoutSessionRequest = async (
     orderedProducts: CartProduct[],
     totalPrice: number,
     address: Address
   ) => {
     try {
+      setIsLoading(true);
       const { data } = await axios.post(
         `${server}/api/v1/order/checkout/create-checkout-session`,
         {
@@ -49,13 +52,15 @@ export const useCreateCheckoutSession = () => {
         return data;
       }
     } catch (error) {
-      const errMeg = (error as AxiosErrorWithMessage).response.data.message;
-      toast.error(errMeg);
-      throw new Error("Unable to create checkout session");
+      console.log(error);
+      toast.error("Unable to create checkout session");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return {
+    isLoading,
     createCheckoutSessionRequest,
   };
 };
