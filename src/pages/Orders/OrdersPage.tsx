@@ -2,10 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { columns, Order } from "./columns";
+import { columns } from "./columns";
 import { OrderDataTable } from "./order-data-table";
 
 import { server } from "@/redux/store";
+import { Order } from "@/types/types";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -41,7 +42,7 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="min-h-[100svh] md:px-6 py-12 container flex flex-col md:flex-row gap-8">
+    <div className="min-h-[100svh] md:px-6 py-12 container">
       <main className="w-full">
         <OrderDataTable columns={columns} data={orders} />
       </main>

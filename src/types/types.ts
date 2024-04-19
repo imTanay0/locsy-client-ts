@@ -98,3 +98,31 @@ export interface CartProduct {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type Order = {
+  orderId: string;
+  address: Address;
+  buyerId: string;
+  totalPrice: number;
+  orderStatus: string;
+  products: OrderedProducts[];
+  date: Date;
+};
+
+type OrderedProducts = {
+  productId: string;
+  productName: string;
+  productImg: string;
+  price: number;
+  stock: number;
+  sellerId: string;
+  quantity?: number;
+};
+
+type Address = {
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+};

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ColumnDef,
   SortingState,
@@ -17,9 +18,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Order } from "./columns";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
+import { Order } from "@/types/types";
 
 interface DataTableProps<TValue> {
   columns: ColumnDef<Order, TValue>[];
@@ -74,7 +74,10 @@ export function OrderDataTable<TValue>({
                 {row.getVisibleCells().map((cell, i) => (
                   <TableCell key={cell.id}>
                     {i === 0 && (
-                      <Link to={`/orders/${row.original.orderId}`} className="font-semibold">
+                      <Link
+                        to={`/orders/${row.original.orderId}`}
+                        className="font-semibold"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -84,12 +87,15 @@ export function OrderDataTable<TValue>({
                     {i === 1 && (
                       <Link to={`/orders/${row.original.orderId}`}>
                         <div className="w-fit flex relative">
-                        {cell.row.original.products.map((product, i) => (
-                          <Avatar key={product.productId} className={`${i !== 0 && "absolute left-[25px]"}`}>
-                            <AvatarImage src={product.productImg} />
-                          </Avatar>
-                        ))}
-                      </div>
+                          {cell.row.original.products.map((product, i) => (
+                            <Avatar
+                              key={product.productId}
+                              className={`${i !== 0 && "absolute left-[25px]"}`}
+                            >
+                              <AvatarImage src={product.productImg} />
+                            </Avatar>
+                          ))}
+                        </div>
                       </Link>
                     )}
                     {i !== 0 &&

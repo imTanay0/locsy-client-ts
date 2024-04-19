@@ -19,11 +19,13 @@ const ProductInfoPage = lazy(
 const CartPage = lazy(() => import("@/pages/Cart/CartPage"));
 const CheckoutPage = lazy(() => import("@/pages/Checkout/CheckoutPage"));
 const OrdersPage = lazy(() => import("@/pages/Orders/OrdersPage"));
+const OrderInfoPage = lazy(() => import("@/pages/Orders/OrderInfoPage"));
 
 const BuyerRoutes = () => {
-  const { user, isAuthenticated } = useSelector<RootState, UserReducerInitialState>(
-    (state) => state.user
-  );
+  const { user, isAuthenticated } = useSelector<
+    RootState,
+    UserReducerInitialState
+  >((state) => state.user);
 
   return (
     <div>
@@ -50,10 +52,18 @@ const BuyerRoutes = () => {
         />
 
         {/* LOGGED IN ROUTES */}
-        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} redirect="/login" />}>
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/orders" element={<OrdersPage />} />
+        <Route
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              redirect="/login"
+            />
+          }
+        >
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:orderId" element={<OrderInfoPage />} />
         </Route>
 
         <Route path="/*" element={<NotFoundPage />} />
