@@ -11,12 +11,11 @@ import SellerProducrs from "@/pages/Seller/Products/SellerProducts";
 import UpdateProduct from "@/pages/Seller/Products/UpdateProduct";
 import ProtectedRoute from "@/components/protectedRoute";
 
-import { BuyerState } from "@/types/reducer-types";
 import { RootState } from "@/redux/store";
 
 const SellerRoutes = () => {
-  const { user, isAuthenticated } = useSelector<RootState, BuyerState>(
-    (state) => state.buyer
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.user
   );
 
   return (
