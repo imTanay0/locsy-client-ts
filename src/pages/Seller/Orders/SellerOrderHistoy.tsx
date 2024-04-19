@@ -1,16 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/ZSMaCyu3pOP
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-
-// import { Button } from "@/components/ui/button";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,

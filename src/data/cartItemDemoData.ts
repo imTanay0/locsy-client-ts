@@ -5,7 +5,7 @@ export const cartItemDemoData = [
     productImg:
       "https://media.istockphoto.com/id/1217638970/photo/the-jaapi-is-a-traditional-conical-hat-from-assam-india-which-is-made-from-tightly-woven.jpg?s=612x612&w=0&k=20&c=mQ6ID-Xbgc4OaBtbO1jVkzS_3ZcWVhzgz-Khu2RwWTg=",
     price: 999,
-    quantity: 1,
+    orderedQuantity: 1,
     stock: 6,
     seller: "John Doe",
   },
@@ -15,7 +15,7 @@ export const cartItemDemoData = [
     productImg:
       "https://media.istockphoto.com/id/1217638970/photo/the-jaapi-is-a-traditional-conical-hat-from-assam-india-which-is-made-from-tightly-woven.jpg?s=612x612&w=0&k=20&c=mQ6ID-Xbgc4OaBtbO1jVkzS_3ZcWVhzgz-Khu2RwWTg=",
     price: 999,
-    quantity: 1,
+    orderedQuantity: 1,
     stock: 1,
     seller: "John Doe",
   },
@@ -25,7 +25,7 @@ export const cartItemDemoData = [
     productImg:
       "https://media.istockphoto.com/id/1217638970/photo/the-jaapi-is-a-traditional-conical-hat-from-assam-india-which-is-made-from-tightly-woven.jpg?s=612x612&w=0&k=20&c=mQ6ID-Xbgc4OaBtbO1jVkzS_3ZcWVhzgz-Khu2RwWTg=",
     price: 999,
-    quantity: 1,
+    orderedQuantity: 1,
     stock: 8,
     seller: "John Doe",
   },

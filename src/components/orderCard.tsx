@@ -6,7 +6,7 @@ type orderItemType = {
   productName: string;
   productImg: string;
   price: number;
-  quantity: number;
+  orderedQuantity: number;
   stock: number;
   seller: string;
 };
@@ -16,7 +16,7 @@ type OrderCardProps = {
 };
 
 const OrderCard = ({ orderItem }: OrderCardProps) => {
-  const { _id, productName, productImg, price, seller } = orderItem;
+  const { _id, productName, productImg, price } = orderItem;
 
   return (
     <div className="flex flex-col lg:flex-row gap-5 p-4 rounded-lg shadow-custom bg-gray-50">
@@ -28,12 +28,11 @@ const OrderCard = ({ orderItem }: OrderCardProps) => {
         />
       </Link>
 
-      <div className="flex flex-col gap-1 flex-1">
+      <div className="flex flex-col gap-1 flex-1 py-5">
         <p className="font-bold">{productName}</p>
-        <p className="text-gray-600">Seller: {seller}</p>
-        <p className="font-bold mt-2">&#8377;{price}</p>
+        <p className="font-bold mt-2 text-green-500">&#8377;{price}</p>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 py-5">
         <CircleDot className="text-green-600" width={20} />
         <p className="font-semibold">Expected Delivery On March 23</p>
       </div>
