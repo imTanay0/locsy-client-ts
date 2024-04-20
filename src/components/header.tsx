@@ -93,45 +93,29 @@ const Header = ({ user }: HeaderProps) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <Link
-                    to="/account"
-                    className="w-full"
-
-                  >
+                  <Link to="/account" className="w-full">
                     <DropdownMenuItem>Profile</DropdownMenuItem>
                   </Link>
                   {user.role === 1 && (
-                    <Link
-                      to="/admin"
-  
-                      className="w-full"
-                    >
-                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                    <Link to="/admin" className="w-full">
+                      <DropdownMenuItem>Admin Dashboard</DropdownMenuItem>
                     </Link>
                   )}
                   {user.role === 2 && (
-                    <Link
-                      to="/seller"
-  
-                      className="w-full"
-                    >
-                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                    <Link to="/seller" className="w-full">
+                      <DropdownMenuItem>Seller Dashboard</DropdownMenuItem>
                     </Link>
                   )}
-                  <Link
-                    to="/orders"
-
-                    className="w-full py-1 hover:bg-slate-300"
-                  >
+                  <Link to="/orders" className="w-full py-1 hover:bg-slate-300">
                     <DropdownMenuItem>Orders</DropdownMenuItem>
                   </Link>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <p
-                      className="text-red-500 w-full cursor-pointer"
+                      className="text-red-600 w-full cursor-pointer"
                       onClick={logoutHandler}
                     >
-                      Sign Out
+                      Sign out
                     </p>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -211,7 +195,7 @@ const Header = ({ user }: HeaderProps) => {
                           onClick={logoutHandler}
                         >
                           <LogOut className="h-5 w-5" />
-                          <span>Sign Out</span>
+                          <span>Sign out</span>
                         </div>
                       </DrawerClose>
                     </>
