@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import {
@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { deliveryAddressFromSchema } from "@/lib/formSchema";
 import AddressCard from "@/components/addressCard";
+
+import { deliveryAddressFromSchema } from "@/lib/formSchema";
 
 type DeliveryAddressFormProps = {
   step: number;
