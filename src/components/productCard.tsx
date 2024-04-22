@@ -57,7 +57,6 @@ const ProductCard = ({
         );
 
         if (data.success) {
-          // console.log(data);
           dispatch(cartExist(data));
           toast.success("Added to cart", {
             action: {
@@ -75,7 +74,7 @@ const ProductCard = ({
       } catch (error) {
         const errMsg = (error as AxiosErrorWithMessage).response.data.message;
         console.log(errMsg);
-        toast.error(errMsg);
+        toast.error("Failed to add to cart");
         dispatch(cartNotExist());
       } finally {
         setIsLoading(false);
@@ -114,7 +113,7 @@ const ProductCard = ({
       } catch (error) {
         const errMsg = (error as AxiosErrorWithMessage).response.data.message;
         console.log(errMsg);
-        toast.error(errMsg);
+        toast.error("Failed to add to cart");
       } finally {
         setIsLoading(false);
       }
