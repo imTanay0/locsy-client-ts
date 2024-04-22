@@ -29,29 +29,6 @@ const Stepper = () => {
     setCurrentStep(step);
   }, [step, steps.length]);
 
-  // const handleNext = () => {
-  //   if (currentStep === steps.length) {
-  //     setComplete(true);
-  //   } else {
-  //     const newStep = currentStep + 1;
-  //     navigate(`/checkout?step=${newStep}`);
-
-  //     setCurrentStep(newStep);
-  //   }
-  // };
-
-  // const handlePrev = () => {
-  //   if (currentStep === 1) {
-  //     setComplete(false);
-  //   } else {
-  //     const newStep = currentStep - 1;
-  //     // navigate(`/checkout?step=${newStep}`);
-  //     navigate("/login");
-
-  //     setCurrentStep(newStep);
-  //   }
-  // };
-
   if (currentStep > steps.length) {
     return <NotFoundPage />;
   }
@@ -73,18 +50,9 @@ const Stepper = () => {
           </div>
         ))}
       </div>
-      {/* <Button onClick={handleNext}>
-        {currentStep === steps.length ? `Finish` : `Next`}
-      </Button>
-      <Button onClick={handlePrev}>Back</Button> */}
 
       <main className="mt-8">
-        {currentStep === 1 && (
-          <DeliveryAddressForm
-          // step={step}
-          // onNext={handleNext}
-          />
-        )}
+        {currentStep === 1 && <DeliveryAddressForm />}
         {currentStep === 2 && <OrderSummary />}
         {currentStep === 3 && <p>Payment</p>}
       </main>

@@ -23,11 +23,6 @@ import { deliveryAddressFromSchema } from "@/lib/formSchema";
 import { server } from "@/redux/store";
 import { setAddress } from "@/redux/slice/addressSlice";
 
-// type DeliveryAddressFormProps = {
-//   step: number;
-//   onNext: () => void;
-// };
-
 const DeliveryAddressForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -69,7 +64,7 @@ const DeliveryAddressForm = () => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 justify-between w-full">
-      <div className="p-5 w-full lg:w-[33%] shadow-custom overflow-y-scroll max-h-[425px] rounded-lg">
+      <div className="p-5 w-full lg:w-[33%] shadow-custom overflow-y-scroll max-h-[424px] rounded-lg">
         <AddressCard button />
       </div>
       <div className="h-fit p-5 flex flex-col items-center flex-1 shadow-custom rounded-lg">
@@ -162,14 +157,12 @@ const DeliveryAddressForm = () => {
               <Link
                 to={"/cart"}
                 className="bg-gray-100 rounded-full p-2 border border-sky-500 hover:bg-white"
-                // onClick={onPrevious}
               >
                 <ChevronLeft />
               </Link>
               <button
                 type="submit"
                 className="bg-gray-100 rounded-full p-2 border border-sky-500 hover:bg-white"
-                // onClick={onNext}
               >
                 <ChevronRight />
               </button>

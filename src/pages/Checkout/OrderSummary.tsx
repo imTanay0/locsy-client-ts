@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
-import { useCreateCheckoutSession } from "@/api/OrderApi";
 import CartItem from "@/components/cartItem";
 import { Button } from "@/components/ui/button";
+
+import { useCreateCheckoutSession } from "@/api/OrderApi";
 import { RootState } from "@/redux/store";
 import { CartProduct } from "@/types/types";
-import { Loader2 } from "lucide-react";
 
 const OrderSummary = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
