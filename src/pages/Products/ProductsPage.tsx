@@ -2,7 +2,6 @@ import axios from "axios";
 import { ListFilter } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { toast } from "sonner";
 
 import ProductCard from "@/components/productCard";
 import { Input } from "@/components/ui/input";
@@ -31,30 +30,36 @@ interface ProductResponse {
 
 const ProductsPage = () => {
   // const [page, setPage] = useState(1);
-  // const routes = useRoutes()
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [products, setProducts] = useState<ProductResponse[]>();
+  const [products, setProducts] = useState<ProductResponse[]>([]);
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const { data } = await axios.get(`${server}/api/v1/product/getall`, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    const fetchProducts = async () => {
+      const sort = searchParams.get("sort") || "";
+      const maxPrice = searchParams.get("maxPrice") || 100000;
 
-        setProducts(data.filteredUpdatedProducts);
+      try {
+        const { data } = await axios.get(
+          `${server}/api/v1/product/${
+            sort || maxPrice ? "filter" : "getall"
+          }?sort=${sort}&maxPrice=${maxPrice}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setProducts(data.products || data.filteredUpdatedProducts);
       } catch (error) {
-        console.log(error);
-        toast.error("Failed to fetch products");
+        console.error(error);
+        setProducts([]);
       }
     };
 
-    getAllProducts();
-  }, []);
+    fetchProducts();
+  }, [searchParams]);
 
   // const isPrevPage = true;
   // const isNextPage = true;
@@ -70,7 +75,7 @@ const ProductsPage = () => {
   // };
 
   const handleFilterBySort = (val: string) => {
-    const maxPrice = searchParams.get("maxPrice") || 10000;
+    const maxPrice = searchParams.get("maxPrice") || "";
 
     if (val === "default") {
       setSearchParams({ sort: "", maxPrice: maxPrice.toString() });
@@ -81,7 +86,7 @@ const ProductsPage = () => {
 
   const handleFilterByPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const sort = searchParams.get("sort") || "";
-    
+
     setSearchParams({ sort: sort, maxPrice: e.target.value });
   };
 
@@ -111,17 +116,11 @@ const ProductsPage = () => {
         </div>
 
         <div>
-          <h4 className="text-lg">
-            Max Price: {searchParams.get("maxPrice") || 10000}
-          </h4>
+          <h4 className="text-lg">Max Price</h4>
           <Input
-            value={searchParams.get("maxPrice") || 10000}
+            value={searchParams.get("maxPrice") || ""}
             onChange={(e) => handleFilterByPrice(e)}
-            type="range"
-            min={100}
-            max={10000}
-            step={100}
-            className="w-full"
+            className="w-full mt-2"
           />
         </div>
       </aside>
