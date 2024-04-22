@@ -58,7 +58,7 @@ const CartPage = () => {
             <p>&#8377;{cart?.totalPrice}</p>
           </div>
           {cartProducts && cartProducts.length > 0 ? (
-            <Link to="/checkout?step=2">
+            <Link to="/checkout?step=1">
               <Button className="mt-2 w-full">Check Out</Button>
             </Link>
           ) : (

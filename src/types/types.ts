@@ -119,7 +119,8 @@ type OrderedProducts = {
   quantity?: number;
 };
 
-type Address = {
+export type Address = {
+  _id?: string;
   street: string;
   city: string;
   state: string;

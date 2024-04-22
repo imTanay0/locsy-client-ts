@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,13 +18,12 @@ import AddressCard from "@/components/addressCard";
 
 import { deliveryAddressFromSchema } from "@/lib/formSchema";
 
-type DeliveryAddressFormProps = {
-  step: number;
-  onPrevious: () => void;
-  onNext: () => void;
-};
+// type DeliveryAddressFormProps = {
+//   step: number;
+//   onNext: () => void;
+// };
 
-const DeliveryAddressForm = ({ onPrevious }: DeliveryAddressFormProps) => {
+const DeliveryAddressForm = () => {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof deliveryAddressFromSchema>>({
@@ -169,12 +168,13 @@ const DeliveryAddressForm = ({ onPrevious }: DeliveryAddressFormProps) => {
             </div>
 
             <div className="flex justify-between pt-5">
-              <button
+              <Link
+                to={"/cart"}
                 className="bg-gray-100 rounded-full p-2 border border-sky-500 hover:bg-white"
-                onClick={onPrevious}
+                // onClick={onPrevious}
               >
                 <ChevronLeft />
-              </button>
+              </Link>
               <button
                 type="submit"
                 className="bg-gray-100 rounded-full p-2 border border-sky-500 hover:bg-white"

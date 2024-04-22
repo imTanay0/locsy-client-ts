@@ -83,10 +83,9 @@ const OrderSummary = () => {
               <p>&#8377;{cart?.totalPrice}</p>
             </div>
             <div className="mt-2 w-full flex justify-between">
-              <Link to="/checkout?step=2">
+              <Link to="/checkout?step=1">
                 <Button>Back</Button>
               </Link>
-              {/* <Link to="/checkout?step=4"> */}
               {isLoading ? (
                 <Button disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -97,7 +96,6 @@ const OrderSummary = () => {
                   Pay Now
                 </Button>
               )}
-              {/* </Link> */}
             </div>
           </div>
         </aside>

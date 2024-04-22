@@ -1,14 +1,17 @@
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import "@/css/stepper.css";
+
 import DeliveryAddressForm from "@/pages/Checkout/DeliveryAddressForm";
 import OrderSummary from "@/pages/Checkout/OrderSummary";
+import NotFoundPage from "./notFoundPage";
 
 const Stepper = () => {
-  const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
+  const steps = ["Delivery Address", "Order Summary", "Payment"];
 
+  // const navigate = useNavigate();
   const location = useLocation();
   const querySearch = new URLSearchParams(location.search);
 
@@ -18,8 +21,6 @@ const Stepper = () => {
   const [currentStep, setCurrentStep] = useState(step);
   const [complete, setComplete] = useState(false);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     if (step > steps.length) {
       setComplete(true);
@@ -28,28 +29,32 @@ const Stepper = () => {
     setCurrentStep(step);
   }, [step, steps.length]);
 
-  const handleNext = () => {
-    if (currentStep === steps.length) {
-      setComplete(true);
-    } else {
-      const newStep = currentStep + 1;
-      navigate(`/checkout?step=${newStep}`);
+  // const handleNext = () => {
+  //   if (currentStep === steps.length) {
+  //     setComplete(true);
+  //   } else {
+  //     const newStep = currentStep + 1;
+  //     navigate(`/checkout?step=${newStep}`);
 
-      setCurrentStep(newStep);
-    }
-  };
+  //     setCurrentStep(newStep);
+  //   }
+  // };
 
-  const handlePrev = () => {
-    if (currentStep === 1) {
-      setComplete(false);
-    } else {
-      const newStep = currentStep - 1;
-      // navigate(`/checkout?step=${newStep}`);
-      navigate("/login")
+  // const handlePrev = () => {
+  //   if (currentStep === 1) {
+  //     setComplete(false);
+  //   } else {
+  //     const newStep = currentStep - 1;
+  //     // navigate(`/checkout?step=${newStep}`);
+  //     navigate("/login");
 
-      setCurrentStep(newStep);
-    }
-  };
+  //     setCurrentStep(newStep);
+  //   }
+  // };
+
+  if (currentStep > steps.length) {
+    return <NotFoundPage />;
+  }
 
   return (
     <>
@@ -74,15 +79,14 @@ const Stepper = () => {
       <Button onClick={handlePrev}>Back</Button> */}
 
       <main className="mt-8">
-        {currentStep === 2 && (
+        {currentStep === 1 && (
           <DeliveryAddressForm
-            step={step}
-            onPrevious={handlePrev}
-            onNext={handleNext}
+          // step={step}
+          // onNext={handleNext}
           />
         )}
-        {currentStep === 3 && <OrderSummary />}
-        {currentStep === 4 && <p>Payment</p>}
+        {currentStep === 2 && <OrderSummary />}
+        {currentStep === 3 && <p>Payment</p>}
       </main>
     </>
   );
