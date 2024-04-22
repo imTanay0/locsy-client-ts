@@ -1,18 +1,11 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "sonner";
 import { ListFilter } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 import ProductCard from "@/components/productCard";
 import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -20,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { server } from "@/redux/store";
 
 interface ProductResponse {
@@ -36,12 +30,11 @@ interface ProductResponse {
 }
 
 const ProductsPage = () => {
-  const [sort, setSort] = useState("");
-  const [maxPrice, setMaxPrice] = useState(100000);
-  const [page, setPage] = useState(1);
-  const [products, setProducts] = useState<ProductResponse[]>();
+  // const [page, setPage] = useState(1);
+  // const routes = useRoutes()
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // const { data, error } = useGetAllProductsQuery({});
+  const [products, setProducts] = useState<ProductResponse[]>();
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -66,14 +59,30 @@ const ProductsPage = () => {
   // const isPrevPage = true;
   // const isNextPage = true;
 
-  const handlePrevPage = () => {
-    if (page > 1) {
-      setPage((prev) => prev - 1);
+  // const handlePrevPage = () => {
+  //   if (page > 1) {
+  //     setPage((prev) => prev - 1);
+  //   }
+  // };
+
+  // const handleNextPage = () => {
+  //   setPage((prev) => prev + 1);
+  // };
+
+  const handleFilterBySort = (val: string) => {
+    const maxPrice = searchParams.get("maxPrice") || 10000;
+
+    if (val === "default") {
+      setSearchParams({ sort: "", maxPrice: maxPrice.toString() });
+    } else {
+      setSearchParams({ sort: val, maxPrice: maxPrice.toString() });
     }
   };
 
-  const handleNextPage = () => {
-    setPage((prev) => prev + 1);
+  const handleFilterByPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const sort = searchParams.get("sort") || "";
+    
+    setSearchParams({ sort: sort, maxPrice: e.target.value });
   };
 
   return (
@@ -85,12 +94,16 @@ const ProductsPage = () => {
         </div>
         <div className="w-full">
           <h4 className="text-lg mb-2">Sort</h4>
-          <Select value={sort} onValueChange={(val) => setSort(val)}>
+          <Select
+            value={searchParams.get("sort") || ""}
+            defaultValue="default"
+            onValueChange={(val) => handleFilterBySort(val)}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Sort" />
+              <SelectValue placeholder="Default" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">None</SelectItem>
+              <SelectItem value="default">Default</SelectItem>
               <SelectItem value="asc">Price (Low to High)</SelectItem>
               <SelectItem value="dsc">Price (High to Low)</SelectItem>
             </SelectContent>
@@ -98,13 +111,15 @@ const ProductsPage = () => {
         </div>
 
         <div>
-          <h4 className="text-lg">Max Price: {maxPrice || ""}</h4>
+          <h4 className="text-lg">
+            Max Price: {searchParams.get("maxPrice") || 10000}
+          </h4>
           <Input
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(Number(e.target.value))}
+            value={searchParams.get("maxPrice") || 10000}
+            onChange={(e) => handleFilterByPrice(e)}
             type="range"
             min={100}
-            max={100000}
+            max={10000}
             step={100}
             className="w-full"
           />
@@ -129,7 +144,7 @@ const ProductsPage = () => {
           <p>No products found</p>
         )}
 
-        <Pagination className="mt-4">
+        {/* <Pagination className="mt-4">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
@@ -144,7 +159,7 @@ const ProductsPage = () => {
               <PaginationLink href="#">of {page}</PaginationLink>
             </PaginationItem>
 
-            {/* {renderPages()} */}
+            // {renderPages()}
 
             <PaginationItem>
               <PaginationNext
@@ -153,7 +168,7 @@ const ProductsPage = () => {
               />
             </PaginationItem>
           </PaginationContent>
-        </Pagination>
+        </Pagination> */}
       </main>
     </div>
   );
