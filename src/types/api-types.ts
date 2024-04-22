@@ -1,11 +1,11 @@
 import { AxiosError } from "axios";
-import { Buyer, User } from "./types";
+import { Buyer, Role, User } from "./types";
 
 export type MessageResponse = {
   success: boolean;
   message?: string;
   user: User | null;
-  role: Buyer | null;
+  role: Role | null;
 };
 
 export type ErrorWithMessage = {
