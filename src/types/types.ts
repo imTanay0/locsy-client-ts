@@ -13,14 +13,14 @@ export interface User {
   role: number;
 }
 
+export interface Role extends Buyer, Seller {}
+
 export interface Buyer {
   _id: string;
   userId: string;
-  addresses?: AddressUser[];
-  timestamps: {
-    createdAt: Date;
-    updatedAt: Date;
-  };
+  addresses: AddressBuyer[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Seller {
@@ -49,9 +49,10 @@ export interface Seller {
   updatedAt: Date;
 }
 
-interface AddressUser {
-  address?: string;
-  isDefault?: boolean;
+interface AddressBuyer {
+  addressId: string;
+  isDefault: boolean;
+  contactNo: string;
 }
 
 export interface Product {
@@ -99,7 +100,7 @@ export interface CartProduct {
   updatedAt: Date;
 }
 
-export type Order = {
+export interface Order {
   orderId: string;
   address: Address;
   buyerId: string;
@@ -107,9 +108,9 @@ export type Order = {
   orderStatus: string;
   products: OrderedProducts[];
   date: Date;
-};
+}
 
-type OrderedProducts = {
+interface OrderedProducts {
   productId: string;
   productName: string;
   productImg: string;
@@ -117,7 +118,7 @@ type OrderedProducts = {
   stock: number;
   sellerId: string;
   quantity?: number;
-};
+}
 
 export type Address = {
   _id?: string;

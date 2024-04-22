@@ -1,8 +1,8 @@
-import { Buyer, Cart, Product, Seller, User } from "./types";
+import { Address, Buyer, Cart, Product, Role, User } from "./types";
 
 export interface UserReducerInitialState {
   user: User | null;
-  role: Buyer | Seller | null;
+  role: Role | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   isError: boolean;
@@ -51,3 +51,9 @@ export type CartInitialState = {
   cart: Cart | null;
   isLoading: boolean;
 };
+
+export interface AddressInitialState {
+  address: Address | null;
+  contactNo: string | null;
+  isLoading: boolean;
+}

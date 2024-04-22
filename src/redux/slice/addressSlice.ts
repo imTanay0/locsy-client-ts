@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const inititalState = {
+import { AddressInitialState } from "@/types/reducer-types";
+
+const inititalState: AddressInitialState = {
   address: null,
   isLoading: false,
-  isError: false,
+  contactNo: null,
 };
 
 export const addressSlice = createSlice({
@@ -11,10 +13,12 @@ export const addressSlice = createSlice({
   initialState: inititalState,
   reducers: {
     setAddress: (state, action) => {
-      state.address = action.payload;
+      state.address = action.payload.address;
+      state.contactNo = action.payload.contactNo;
     },
     removeAddress: (state) => {
       state.address = null;
+      state.contactNo = null;
     },
   },
 });

@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
+import { setAddress } from "@/redux/slice/addressSlice";
 import { RootState, server } from "@/redux/store";
 import { Address } from "@/types/types";
-import { setAddress } from "@/redux/slice/addressSlice";
 
 type AddressCardProps = {
   button?: boolean;
@@ -16,7 +16,8 @@ type AddressCardProps = {
 
 const AddressCard = ({ button }: AddressCardProps) => {
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const { user } = useSelector((state: RootState) => state.user);
+  const [contactNo, setContactNo] = useState<string>("");
+  const { user, role } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const AddressCard = ({ button }: AddressCardProps) => {
 
         if (data.success) {
           setAddresses(data.addresses);
+          setContactNo(data.contactNo);
         }
       } catch (error) {
         console.log(error);
@@ -39,7 +41,16 @@ const AddressCard = ({ button }: AddressCardProps) => {
     fetchAddresses();
   }, []);
 
-  if (!user) {
+  const handleSetState = (address: Address, contactNo: string) => {
+    const data = {
+      address,
+      contactNo
+    };
+
+    dispatch(setAddress(data));
+  };
+
+  if (!user || !role) {
     return <p>Loding...</p>;
   }
 
@@ -47,7 +58,7 @@ const AddressCard = ({ button }: AddressCardProps) => {
     <div className="w-full flex flex-col">
       {addresses.length > 0 ? (
         <>
-          {addresses.map((address) => (
+          {addresses.map((address, i) => (
             <div key={address._id}>
               <div className="space-y-3">
                 <p className="font-semibold">{`${user.fname} ${user.lname}`}</p>
@@ -59,13 +70,13 @@ const AddressCard = ({ button }: AddressCardProps) => {
                 </p>
                 <div className="space-y-1">
                   <p className="font-semibold">Phone Number</p>
-                  <p className="">+91 {user.contactNo}</p>
+                  <p className="">+91 {contactNo[i]}</p>
                 </div>
                 {button && (
                   <div>
                     <Link
                       to="/checkout?step=2"
-                      onClick={() => dispatch(setAddress(address))}
+                      onClick={() => handleSetState(address, contactNo[i])}
                     >
                       <Button className="">Deliver Here</Button>
                     </Link>

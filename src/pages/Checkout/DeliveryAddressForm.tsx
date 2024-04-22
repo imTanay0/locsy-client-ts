@@ -1,7 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import {
@@ -17,6 +20,8 @@ import { Textarea } from "@/components/ui/textarea";
 import AddressCard from "@/components/addressCard";
 
 import { deliveryAddressFromSchema } from "@/lib/formSchema";
+import { server } from "@/redux/store";
+import { setAddress } from "@/redux/slice/addressSlice";
 
 // type DeliveryAddressFormProps = {
 //   step: number;
@@ -25,12 +30,11 @@ import { deliveryAddressFromSchema } from "@/lib/formSchema";
 
 const DeliveryAddressForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const form = useForm<z.infer<typeof deliveryAddressFromSchema>>({
     resolver: zodResolver(deliveryAddressFromSchema),
     defaultValues: {
-      fname: "",
-      lname: "",
       street: "",
       city: "",
       state: "",
@@ -42,51 +46,38 @@ const DeliveryAddressForm = () => {
   async function handleDeliveryForm(
     values: z.infer<typeof deliveryAddressFromSchema>
   ) {
-    console.log(values);
-    navigate(`/checkout?step=3`);
+    try {
+      const { data } = await axios.post(
+        `${server}/api/v1/address/add`,
+        values,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (data.success) {
+        dispatch(setAddress(data));
+        navigate(`/checkout?step=2`);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add delivery address");
+    }
   }
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 justify-between w-full">
-      <div className="p-5 w-full lg:w-[33%] shadow-custom overflow-y-scroll max-h-[512px] rounded-lg">
+      <div className="p-5 w-full lg:w-[33%] shadow-custom overflow-y-scroll max-h-[425px] rounded-lg">
         <AddressCard button />
       </div>
-      <div className=" p-5 flex flex-col items-center flex-1 shadow-custom rounded-lg">
+      <div className="h-fit p-5 flex flex-col items-center flex-1 shadow-custom rounded-lg">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleDeliveryForm)}
             className="space-y-4  w-full"
           >
-            <div className="flex gap-4">
-              <FormField
-                control={form.control}
-                name="fname"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>First name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your first name" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lname"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Last name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your last name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
             <FormField
               control={form.control}
               name="street"

@@ -122,8 +122,6 @@ export const registerFormSchema = z
 
 // DELIVERRY ADDRESS FORM
 export const deliveryAddressFromSchema = z.object({
-  fname: z.string().min(1, { message: "Required" }),
-  lname: z.string().min(1, { message: "Required" }),
   street: z.string().min(1, { message: "Required" }),
   city: z.string().min(1, { message: "Required" }),
   state: z.string().min(1, { message: "Required" }),

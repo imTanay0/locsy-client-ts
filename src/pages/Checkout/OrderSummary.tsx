@@ -3,22 +3,18 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { useCreateCheckoutSession } from "@/api/OrderApi";
-import AddressCard from "@/components/addressCard";
 import CartItem from "@/components/cartItem";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/redux/store";
 import { CartProduct } from "@/types/types";
 import { Loader2 } from "lucide-react";
 
-const address = {
-  street: "Shankar Mission Road, Nagaon, Assam",
-  city: "Nagaon",
-  state: "Assam",
-  zipCode: "782003",
-};
-
 const OrderSummary = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
+  const { user, role } = useSelector((state: RootState) => state.user);
+  const { address, contactNo } = useSelector(
+    (state: RootState) => state.address
+  );
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
   const { isLoading, createCheckoutSessionRequest } =
@@ -31,7 +27,7 @@ const OrderSummary = () => {
   }, [cart]);
 
   const handleCreateCheckoutSession = async () => {
-    if (!cart) {
+    if (!cart || !address) {
       return;
     }
 
@@ -48,10 +44,28 @@ const OrderSummary = () => {
     window.location.href = data.session;
   };
 
+  if (!user || !role || !address) {
+    return <p>Loding...</p>;
+  }
+
   return (
     <div>
       <div className="w-full px-8 py-5 rounded-lg shadow-custom">
-        <AddressCard />
+        <div className="w-full">
+          <div className="space-y-3">
+            <p className="font-semibold">{`${user.fname} ${user.lname}`}</p>
+            <p className="">
+              <span>{address.street}</span>
+              <span>, {address.city}</span>
+              <span>, {address.state}</span>
+              <span>, {address.zipCode}</span>
+            </p>
+            <div className="space-y-1">
+              <p className="font-semibold">Phone Number</p>
+              <p className="">+91 {contactNo}</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="my-5 flex gap-5 flex-col md:flex-row">
         <div className="w-full px-8 py-5 flex flex-col gap-4 rounded-lg shadow-custom">
