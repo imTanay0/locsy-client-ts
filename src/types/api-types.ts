@@ -83,3 +83,23 @@ export interface ProductResponse {
   success: boolean;
   products: Product[];
 }
+
+export interface SellerOrdersResponse {
+  order: {
+    orderId: string;
+    totalPrice: number;
+    orderStatus: string;
+    isPaymentDone: boolean;
+    date: string;
+  };
+  sellerId: string;
+  products: [
+    {
+      productId: string;
+      productName: string;
+      productImg: string;
+      price: number;
+      stock: number;
+    }
+  ];
+}

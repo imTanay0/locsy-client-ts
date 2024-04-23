@@ -1,239 +1,53 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+import { sellerOrderColumns } from "./sellerOrdersColumns";
+import SellerOrderDataTable from "./sellerOrderDataTable";
+
+import { server } from "@/redux/store";
+import { SellerOrdersResponse } from "@/types/api-types";
 
 const SellerOrderHistoy = () => {
+  const [orders, setOrders] = useState<SellerOrdersResponse[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setIsLoading(true);
+
+        const { data } = await axios.get(`${server}/api/v1/order/seller`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (data.success) {
+          setOrders(data.orders);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch orders");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
   return (
-    <div className="min-h-screen overflow-hidden p-4 md:p-6">
+    <div className="min-h-[100svh] md:px-6 py-12 container">
       <h1 className="font-semibold text-2xl h-fit">Recent Orders</h1>
-      <main className="mt-10 flex flex-1 flex-col gap-4">
-        <div className="border shadow-sm rounded-lg p-2">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Order</TableHead>
-                <TableHead className="min-w-[150px]">Customer</TableHead>
-                <TableHead className="hidden md:table-cell">Channel</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-                <TableHead className="hidden sm:table-cell">Status</TableHead>
-                {/* <TableHead className="text-right">Actions</TableHead> */}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">#3210</TableCell>
-                <TableCell>Olivia Martin</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  Online Store
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  February 20, 2022
-                </TableCell>
-                <TableCell className="text-right">$42.25</TableCell>
-                <TableCell className="hidden sm:table-cell">Shipped</TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3209</TableCell>
-                <TableCell>Ava Johnson</TableCell>
-                <TableCell className="hidden md:table-cell">Shop</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  January 5, 2022
-                </TableCell>
-                <TableCell className="text-right">$74.99</TableCell>
-                <TableCell className="hidden sm:table-cell">Paid</TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3204</TableCell>
-                <TableCell>Michael Johnson</TableCell>
-                <TableCell className="hidden md:table-cell">Shop</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  August 3, 2021
-                </TableCell>
-                <TableCell className="text-right">$64.75</TableCell>
-                <TableCell className="hidden sm:table-cell">
-                  Unfulfilled
-                </TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3203</TableCell>
-                <TableCell>Lisa Anderson</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  Online Store
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  July 15, 2021
-                </TableCell>
-                <TableCell className="text-right">$34.50</TableCell>
-                <TableCell className="hidden sm:table-cell">Shipped</TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3202</TableCell>
-                <TableCell>Samantha Green</TableCell>
-                <TableCell className="hidden md:table-cell">Shop</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  June 5, 2021
-                </TableCell>
-                <TableCell className="text-right">$89.99</TableCell>
-                <TableCell className="hidden sm:table-cell">Paid</TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3201</TableCell>
-                <TableCell>Adam Barlow</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  Online Store
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  May 20, 2021
-                </TableCell>
-                <TableCell className="text-right">$24.99</TableCell>
-                <TableCell className="hidden sm:table-cell">
-                  Unfulfilled
-                </TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3207</TableCell>
-                <TableCell>Sophia Anderson</TableCell>
-                <TableCell className="hidden md:table-cell">Shop</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  November 2, 2021
-                </TableCell>
-                <TableCell className="text-right">$99.99</TableCell>
-                <TableCell className="hidden sm:table-cell">Paid</TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">#3206</TableCell>
-                <TableCell>Daniel Smith</TableCell>
-                <TableCell className="hidden md:table-cell">
-                  Online Store
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  October 7, 2021
-                </TableCell>
-                <TableCell className="text-right">$67.50</TableCell>
-                <TableCell className="hidden sm:table-cell">Shipped</TableCell>
-                {/* <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MoreHorizontalIcon className="w-4 h-4" />
-                        <span className="sr-only">Actions</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View order</DropdownMenuItem>
-                      <DropdownMenuItem>Customer details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell> */}
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
-      </main>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <main className="mt-10 flex flex-1 flex-col gap-4">
+          <SellerOrderDataTable columns={sellerOrderColumns} data={orders} />
+        </main>
+      )}
     </div>
   );
 };
