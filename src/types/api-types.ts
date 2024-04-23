@@ -72,7 +72,7 @@ export interface Product {
   price: number;
   discount: number;
   sellerId: string;
-  categories?: string[]; // Assuming empty array of strings for categories
+  categories?: string[];
   stock: number;
   createdAt: string;
   updatedAt: string;

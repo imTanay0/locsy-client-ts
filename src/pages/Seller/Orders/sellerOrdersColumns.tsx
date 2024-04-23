@@ -13,10 +13,6 @@ export const sellerOrderColumns: ColumnDef<SellerOrdersResponse>[] = [
     accessorKey: "products",
     header: "Products",
   },
-  // {
-  //   accessorKey: "order.totalPrice",
-  //   header: "Total Price (₹)",
-  // },
   {
     accessorKey: "order.date",
     header: ({ column }) => {

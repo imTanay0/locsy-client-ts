@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import NotFoundPage from "@/components/notFoundPage";
 import Navbar from "@/components/seller/navbar";
 
-// import SellerPage from "@/pages/Seller/Home/SellerPage";
 import SellerOrderHistoy from "@/pages/Seller/Orders/SellerOrderHistoy";
 import UploadProducts from "@/pages/Seller/Upload Products/UploadProducts";
 import SellerProducrs from "@/pages/Seller/Products/SellerProducts";

@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   ColumnDef,
   SortingState,
@@ -8,7 +6,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Table,
   TableBody,
@@ -17,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 import { SellerOrdersResponse } from "@/types/api-types";
 
@@ -74,32 +73,27 @@ function SellerOrderDataTable<TValue>({
                 {row.getVisibleCells().map((cell, i) => (
                   <TableCell key={cell.id}>
                     {i === 0 && (
-                      <Link
-                        to={`/orders/${row.original.order.orderId}`}
-                        className="font-semibold"
-                      >
+                      <div className="font-semibold">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )}
-                      </Link>
+                      </div>
                     )}
                     {i === 1 && (
-                      <Link to={`/orders/${row.original.order.orderId}`}>
-                        <div className="w-fit flex relative rounded-full">
-                          {cell.row.original.products.map((product, i) => (
-                            <Avatar
-                              key={product.productId}
-                              className={`${i !== 0 && "absolute left-[25px]"}`}
-                            >
-                              <AvatarImage
-                                src={product.productImg}
-                                className="w-full"
-                              />
-                            </Avatar>
-                          ))}
-                        </div>
-                      </Link>
+                      <div className="w-fit flex relative rounded-full">
+                        {cell.row.original.products.map((product, i) => (
+                          <Avatar
+                            key={product.productId}
+                            className={`${i !== 0 && "absolute left-[25px]"}`}
+                          >
+                            <AvatarImage
+                              src={product.productImg}
+                              className="w-full"
+                            />
+                          </Avatar>
+                        ))}
+                      </div>
                     )}
                     {i !== 0 &&
                       i !== 1 &&
