@@ -76,12 +76,14 @@ export function OrderDataTable<TValue>({
                     {i === 0 && (
                       <Link
                         to={`/orders/${row.original.orderId}`}
-                        className="font-semibold"
+                        className="font-semibold w-full"
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <div>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </div>
                       </Link>
                     )}
                     {i === 1 && (
