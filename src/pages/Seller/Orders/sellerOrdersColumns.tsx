@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { SellerOrdersResponse } from "@/types/api-types";
 import { Button } from "@/components/ui/button";
+import { SellerOrdersResponse } from "@/types/api-types";
 
 export const sellerOrderColumns: ColumnDef<SellerOrdersResponse>[] = [
   {

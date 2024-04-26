@@ -1,7 +1,8 @@
-import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { MoreHorizontalIcon } from "lucide-react";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -132,26 +133,5 @@ const SellerProducts = () => {
     </div>
   );
 };
-
-function MoreHorizontalIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="1" />
-      <circle cx="19" cy="12" r="1" />
-      <circle cx="5" cy="12" r="1" />
-    </svg>
-  );
-}
 
 export default SellerProducts;

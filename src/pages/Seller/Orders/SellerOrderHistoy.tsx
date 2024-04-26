@@ -1,22 +1,28 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-import { sellerOrderColumns } from "./sellerOrdersColumns";
 import SellerOrderDataTable from "./sellerOrderDataTable";
+import { sellerOrderColumns } from "./sellerOrdersColumns";
 
-import { server } from "@/redux/store";
-import { SellerOrdersResponse } from "@/types/api-types";
+import {
+  completeSellerOrders,
+  loadingSellerOrders,
+  setSellerOrders,
+} from "@/redux/slice/sellerOrdersSlice";
+import { RootState, server } from "@/redux/store";
 
 const SellerOrderHistoy = () => {
-  const [orders, setOrders] = useState<SellerOrdersResponse[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { orders, isLoading } = useSelector(
+    (state: RootState) => state.sellerOrders
+  );
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        setIsLoading(true);
-
+        dispatch(loadingSellerOrders());
         const { data } = await axios.get(`${server}/api/v1/order/seller`, {
           withCredentials: true,
           headers: {
@@ -25,18 +31,18 @@ const SellerOrderHistoy = () => {
         });
 
         if (data.success) {
-          setOrders(data.orders);
+          dispatch(setSellerOrders(data.orders));
         }
       } catch (error) {
         console.log(error);
         toast.error("Failed to fetch orders");
       } finally {
-        setIsLoading(false);
+        dispatch(completeSellerOrders());
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="min-h-[100svh] md:px-6 py-12 container">
@@ -51,26 +57,5 @@ const SellerOrderHistoy = () => {
     </div>
   );
 };
-
-// function MoreHorizontalIcon(props: React.SVGProps<SVGSVGElement>) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <circle cx="12" cy="12" r="1" />
-//       <circle cx="19" cy="12" r="1" />
-//       <circle cx="5" cy="12" r="1" />
-//     </svg>
-//   );
-// }
 
 export default SellerOrderHistoy;

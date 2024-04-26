@@ -1,3 +1,4 @@
+import { SellerOrdersResponse } from "./api-types";
 import { Address, Buyer, Cart, Product, Role, User } from "./types";
 
 export interface UserReducerInitialState {
@@ -55,5 +56,10 @@ export type CartInitialState = {
 export interface AddressInitialState {
   address: Address | null;
   contactNo: string | null;
+  isLoading: boolean;
+}
+
+export interface SellerOrders {
+  orders: SellerOrdersResponse[];
   isLoading: boolean;
 }

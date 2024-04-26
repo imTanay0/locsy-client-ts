@@ -6,6 +6,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -18,7 +19,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { SellerOrdersResponse } from "@/types/api-types";
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import orderStatus from "@/constants/orderStatus";
+import {
+  completeSellerOrders,
+  loadingSellerOrders,
+  setSellerOrders,
+} from "@/redux/slice/sellerOrdersSlice";
+import { server } from "@/redux/store";
+import { AxiosErrorWithMessage, SellerOrdersResponse } from "@/types/api-types";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 interface SellerDataTableProps<TValue> {
   columns: ColumnDef<SellerOrdersResponse, TValue>[];
@@ -29,6 +46,7 @@ function SellerOrderDataTable<TValue>({
   columns,
   data,
 }: SellerDataTableProps<TValue>) {
+  const dispatch = useDispatch();
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -41,6 +59,42 @@ function SellerOrderDataTable<TValue>({
       sorting,
     },
   });
+
+  const updateStatusHandler = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    orderId: string
+  ) => {
+    e.preventDefault();
+
+    const orderStatus = (e.target as HTMLButtonElement).textContent;
+
+    try {
+      dispatch(loadingSellerOrders());
+
+      const { data } = await axios.put(
+        `${server}/api/v1/order//update-status`,
+        { orderId, orderStatus },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (data.success) {
+        toast.success("Order satus changed successfully");
+        dispatch(setSellerOrders(data.orders));
+      }
+    } catch (error) {
+      console.log(error);
+      const errMsg = (error as AxiosErrorWithMessage).response.data
+        .message as string;
+      toast.error(errMsg);
+    } finally {
+      dispatch(completeSellerOrders());
+    }
+  };
 
   return (
     <div className="rounded-md border">
@@ -95,8 +149,40 @@ function SellerOrderDataTable<TValue>({
                         ))}
                       </div>
                     )}
-                    {i !== 0 &&
-                      i !== 1 &&
+                    {i === 3 && (
+                      <div className="w-full h-full flex gap-4 items-center">
+                        <p>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </p>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger>
+                            <MoreHorizontal className="w-4 h-4" />
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            {orderStatus.map((status, i) => (
+                              <DropdownMenuItem key={i}>
+                                <button
+                                  className="w-full"
+                                  value={status}
+                                  onClick={(e) =>
+                                    updateStatusHandler(
+                                      e,
+                                      cell.row.original.order.orderId
+                                    )
+                                  }
+                                >
+                                  {status}
+                                </button>
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    )}
+                    {i === 2 &&
                       flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
