@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { SellerOrders } from "@/types/reducer-types";
+import { SellerOrdersInitialState } from "@/types/reducer-types";
 
-const initialState: SellerOrders = {
+const initialState: SellerOrdersInitialState = {
   isLoading: false,
   orders: [],
 };

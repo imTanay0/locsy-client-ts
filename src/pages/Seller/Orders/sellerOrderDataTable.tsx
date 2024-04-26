@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { MoreHorizontal } from "lucide-react";
+import { toast } from "sonner";
+import axios from "axios";
 import {
   ColumnDef,
   SortingState,
@@ -6,8 +11,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { useState } from "react";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -20,6 +23,7 @@ import {
 } from "@/components/ui/table";
 
 import {
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
@@ -32,10 +36,6 @@ import {
 } from "@/redux/slice/sellerOrdersSlice";
 import { server } from "@/redux/store";
 import { AxiosErrorWithMessage, SellerOrdersResponse } from "@/types/api-types";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { toast } from "sonner";
 
 interface SellerDataTableProps<TValue> {
   columns: ColumnDef<SellerOrdersResponse, TValue>[];

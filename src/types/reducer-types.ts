@@ -59,7 +59,7 @@ export interface AddressInitialState {
   isLoading: boolean;
 }
 
-export interface SellerOrders {
+export interface SellerOrdersInitialState {
   orders: SellerOrdersResponse[];
   isLoading: boolean;
 }
