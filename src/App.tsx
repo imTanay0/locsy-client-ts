@@ -78,7 +78,7 @@ function App() {
               <Suspense fallback={<MyLoader />}>
                 <Routes>
                   <Route path="/*" element={<BuyerRoutes />} />
-
+                  
                   {/* SELLER ROUTES */}
                   <Route path="/seller/*" element={<SellerRoutes />} />
                 </Routes>
