@@ -1,11 +1,42 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import HomeHeadingCarousel from "./components/homeHeadingCarousel";
-import { productsDemoData } from "@/data/productDemoData";
 import ProductCard from "@/components/productCard";
 
+import { Product } from "@/types/types";
+import { toast } from "sonner";
+import axios from "axios";
+import { server } from "@/redux/store";
+
 const HomePage = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchHomePageProducts = async () => {
+      try {
+        const { data } = await axios.get(
+          `${server}/api/v1/product/home-products`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (data.success) {
+          setProducts(data.products);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch products");
+      }
+    };
+
+    fetchHomePageProducts();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
@@ -44,14 +75,13 @@ const HomePage = () => {
             </div>
             <div className="mt-5 py-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
-                {productsDemoData.map((product) => (
+                {products.map((product) => (
                   <ProductCard
                     key={product._id}
                     productId={product._id}
                     productName={product.productName}
-                    productImg={product.productImg}
+                    productImg={product.mainImage.image.url}
                     price={product.price}
-                    seller={product.seller}
                   />
                 ))}
               </div>

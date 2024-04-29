@@ -24,7 +24,6 @@ const HomeHeadingCarousel = () => {
           },
         });
 
-        // console.log(data);
         if (data.success) {
           setLatestProducts(data.products);
         }

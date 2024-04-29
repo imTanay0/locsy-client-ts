@@ -24,7 +24,7 @@ type productCardProps = {
   productName: string;
   productImg: string;
   price: number;
-  seller: string;
+  seller?: string;
 };
 
 const ProductCard = ({
@@ -128,6 +128,8 @@ const ProductCard = ({
             <img
               src={productImg}
               alt="product_image"
+              width={200}
+              height={200}
               className="aspect-square object-contain hover:scale-110 duration-500 transition-transform mx-auto"
             />
           </Link>
