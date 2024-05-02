@@ -58,28 +58,30 @@ const ProfilePage = ({ user, role }: ProfilePageProps) => {
   const handleUpdateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!newUser || !newRole) {
+      return;
+    }
+
     // UPDATE SELLER ACCOUNT
     if (user?.role === 2) {
       const formData = new FormData();
 
-      if (newUser && newRole) {
-        if (newUser.fname) formData.append("fname", newUser.fname);
-        if (newUser.lname) formData.append("lname", newUser.lname);
-        if (newUser.email) formData.append("email", newUser.email);
-        if (newUser.contactNo) formData.append("contactNo", newUser.contactNo);
-        if (newRole.shopName) formData.append("shopName", newRole.shopName);
-        if (newRole.shopDescription)
-          formData.append("shopDescription", newRole.shopDescription);
-        if (newRole.shopAddress.street)
-          formData.append("street", newRole.shopAddress.street);
-        if (newRole.shopAddress.city)
-          formData.append("city", newRole.shopAddress.city);
-        if (newRole.shopAddress.state)
-          formData.append("state", newRole.shopAddress.state);
-        if (newRole.shopAddress.zipCode)
-          formData.append("zipCode", newRole.shopAddress.zipCode);
-        if (file) formData.append("file", file);
-      }
+      if (newUser.fname) formData.append("fname", newUser.fname);
+      if (newUser.lname) formData.append("lname", newUser.lname);
+      if (newUser.email) formData.append("email", newUser.email);
+      if (newUser.contactNo) formData.append("contactNo", newUser.contactNo);
+      if (newRole.shopName) formData.append("shopName", newRole.shopName);
+      if (newRole.shopDescription)
+        formData.append("shopDescription", newRole.shopDescription);
+      if (newRole.shopAddress.street)
+        formData.append("street", newRole.shopAddress.street);
+      if (newRole.shopAddress.city)
+        formData.append("city", newRole.shopAddress.city);
+      if (newRole.shopAddress.state)
+        formData.append("state", newRole.shopAddress.state);
+      if (newRole.shopAddress.zipCode)
+        formData.append("zipCode", newRole.shopAddress.zipCode);
+      if (file) formData.append("file", file);
 
       try {
         setIsLoading(true);
@@ -107,10 +109,40 @@ const ProfilePage = ({ user, role }: ProfilePageProps) => {
       }
     }
 
-    // if (user?.role === 3) {}
+    if (user?.role === 3) {
+      const fname = newUser.fname;
+      const lname = newUser.lname;
+      const email = newUser.email;
 
-    console.log("New Role: ", newRole);
-    console.log("New User", newUser);
+      try {
+        setIsLoading(true);
+
+        const { data } = await axios.put(
+          `${server}/api/v1/buyer/update`,
+          {
+            fname,
+            lname,
+            email,
+          },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (data.success) {
+          dispatch(userExist(data));
+          toast.success(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to update account");
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
