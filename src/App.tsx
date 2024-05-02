@@ -7,11 +7,10 @@ import MyLoader from "@/components/myLoader";
 import ScrollToTop from "@/components/scrollToTop";
 import BuyerRoutes from "@/routes/BuyerRoutes";
 import SellerRoutes from "@/routes/SellerRoutes";
-import { buyerExist, buyerNotExist } from "./redux/slice/buyerSlice";
-import { server } from "./redux/store";
+
 import { userExist, userNotExist } from "./redux/slice/authSlice";
 import { cartExist, cartNotExist } from "./redux/slice/cartSlice";
-import { AxiosErrorWithMessage } from "./types/api-types";
+import { server } from "./redux/store";
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,12 +29,10 @@ function App() {
 
         if (data.success) {
           dispatch(userExist(data));
-          dispatch(buyerExist(data));
           setLoading(false);
         }
       } catch (error) {
         dispatch(userNotExist());
-        dispatch(buyerNotExist());
         setLoading(false);
       }
     };
@@ -55,8 +52,7 @@ function App() {
           dispatch(cartExist(data));
         }
       } catch (error) {
-        const errMsg = (error as AxiosErrorWithMessage).response.data.message;
-        console.log(errMsg);
+        console.log(error);
         dispatch(cartNotExist());
       } finally {
         setLoading(false);
@@ -78,7 +74,6 @@ function App() {
               <Suspense fallback={<MyLoader />}>
                 <Routes>
                   <Route path="/*" element={<BuyerRoutes />} />
-                  
                   {/* SELLER ROUTES */}
                   <Route path="/seller/*" element={<SellerRoutes />} />
                 </Routes>

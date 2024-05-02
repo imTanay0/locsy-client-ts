@@ -1,14 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import { buyerAPI } from "./api/buyerAPI";
-import buyerReducer, { buyerSlice } from "./slice/buyerSlice";
 
-import { sellerAPI } from "./api/sellerAPI";
-import authReducer, { authSlice } from "./slice/authSlice";
-import productReducer, { productsSlice } from "./slice/productsSlice";
 import { productAPI } from "./api/productAPI";
-import cartReducer, { cartSlice } from "./slice/cartSlice";
+import { sellerAPI } from "./api/sellerAPI";
 import addressReducer, { addressSlice } from "./slice/addressSlice";
+import authReducer, { authSlice } from "./slice/authSlice";
+import cartReducer, { cartSlice } from "./slice/cartSlice";
+import productReducer, { productsSlice } from "./slice/productsSlice";
 import sellerOrdersReducer, {
   sellerOrdersSlice,
 } from "./slice/sellerOrdersSlice";
@@ -21,7 +20,6 @@ export const store = configureStore({
     [sellerAPI.reducerPath]: sellerAPI.reducer,
     [productAPI.reducerPath]: productAPI.reducer,
     [authSlice.name]: authReducer,
-    [buyerSlice.name]: buyerReducer,
     [productsSlice.name]: productReducer,
     [cartSlice.name]: cartReducer,
     [addressSlice.name]: addressReducer,

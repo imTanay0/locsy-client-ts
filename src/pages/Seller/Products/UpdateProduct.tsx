@@ -21,7 +21,9 @@ interface NewProduct {
 
 const UpdateProduct = () => {
   const { productId } = useParams();
+  
   const navigate = useNavigate();
+  
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<Product>();
   const [newProduct, setNewProduct] = useState<NewProduct>();
@@ -115,7 +117,7 @@ const UpdateProduct = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-6">
+    <div className="min-h-[100svh] p-4 md:p-6">
       <h1 className="font-semibold text-2xl h-fit mb-10">Update Products</h1>
       {newProduct ? (
         <div className="flex flex-col lg:flex-row gap-8 justify-between w-full">
@@ -189,7 +191,7 @@ const UpdateProduct = () => {
               </div>
 
               <div className="w-full flex flex-col gap-2">
-                <Label htmlFor="image">Shop Image</Label>
+                <Label htmlFor="image">Product Image</Label>
                 <Input
                   id="image"
                   type="file"

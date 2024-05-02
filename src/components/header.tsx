@@ -6,6 +6,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Store,
+  User as UserIcon,
   UserRound,
   X,
 } from "lucide-react";
@@ -151,6 +152,14 @@ const Header = ({ user }: HeaderProps) => {
                   </DrawerClose>
                 </div>
                 <nav className="px-5 py-2 flex flex-col gap-2">
+                  <Link to="/account" className="w-full py-1">
+                    <DrawerClose>
+                      <div className="flex gap-2 items-center">
+                        <UserIcon className="h-5 w-5" />
+                        <span>Profile</span>
+                      </div>
+                    </DrawerClose>
+                  </Link>
                   <Link className="py-1" to="/products">
                     <DrawerClose>
                       <div className="flex gap-2 items-center">
@@ -171,12 +180,22 @@ const Header = ({ user }: HeaderProps) => {
 
                   {user?._id ? (
                     <>
-                      {(user.role === 1 || user.role === 2) && (
-                        <Link className="py-1" to="/dashboard">
+                      {user.role === 1 && (
+                        <Link to="/admin" className="w-full py-1">
                           <DrawerClose>
                             <div className="flex gap-2 items-center">
                               <LayoutGrid className="h-5 w-5" />
-                              <span>Dashboard</span>
+                              <span>Admin Dashboard</span>
+                            </div>
+                          </DrawerClose>
+                        </Link>
+                      )}
+                      {user.role === 2 && (
+                        <Link to="/seller" className="w-full py-1">
+                          <DrawerClose>
+                            <div className="flex gap-2 items-center">
+                              <LayoutGrid className="h-5 w-5" />
+                              <span>Seller Dashboard</span>
                             </div>
                           </DrawerClose>
                         </Link>

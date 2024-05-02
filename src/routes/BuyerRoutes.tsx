@@ -20,9 +20,10 @@ const CartPage = lazy(() => import("@/pages/Cart/CartPage"));
 const CheckoutPage = lazy(() => import("@/pages/Checkout/CheckoutPage"));
 const OrdersPage = lazy(() => import("@/pages/Orders/OrdersPage"));
 const OrderInfoPage = lazy(() => import("@/pages/Orders/OrderInfoPage"));
+import ProfilePage from "@/pages/Profile/ProfilePage";
 
 const BuyerRoutes = () => {
-  const { user, isAuthenticated } = useSelector<
+  const { user, isAuthenticated, role } = useSelector<
     RootState,
     UserReducerInitialState
   >((state) => state.user);
@@ -64,6 +65,10 @@ const BuyerRoutes = () => {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/orders/:orderId" element={<OrderInfoPage />} />
+          <Route
+            path="/account"
+            element={<ProfilePage user={user} role={role} />}
+          />
         </Route>
 
         <Route path="/*" element={<NotFoundPage />} />
